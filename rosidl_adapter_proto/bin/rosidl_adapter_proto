@@ -1,0 +1,87 @@
+#!/usr/bin/env python3
+
+# ================================= Apache 2.0 =================================
+#
+# Copyright (C) 2021 Continental
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+# ================================= Apache 2.0 =================================
+
+import argparse
+import sys
+import pathlib
+import os
+
+from rosidl_cmake import read_generator_arguments
+from rosidl_adapter_proto import generate_proto
+from rosidl_adapter_proto import compile_proto
+
+def main(argv=sys.argv[1:]):
+    parser = argparse.ArgumentParser(
+        description='Generate the Protobuf interfaces for Protobuf type support.',
+        formatter_class=argparse.ArgumentDefaultsHelpFormatter)
+    parser.add_argument(
+        '--generator-arguments-file',
+        required=True,
+        help='The location of the file containing the generator arguments')
+    parser.add_argument(
+        '--protoc-path',
+        required=True,
+        help='Path to the protoc executable')
+
+    args = parser.parse_args(argv)
+
+    generator_args = read_generator_arguments(args.generator_arguments_file)
+
+    # Generate .proto files
+    rc = generate_proto(args.generator_arguments_file) 
+    if rc:
+        return rc
+
+    # Compile .proto files using protoc
+    cpp_out_dir     = str(pathlib.Path(generator_args["output_dir"] + "/..").resolve())
+    proto_path_list = [str(pathlib.Path(generator_args["output_dir"] + "/..").resolve())]
+    proto_files     = []
+    package_name    = generator_args["package_name"]
+
+    if "additional_files" in generator_args:
+        proto_path_list += generator_args["additional_files"]
+
+    pathlib.Path(cpp_out_dir).mkdir(parents=True, exist_ok=True)
+
+    for idl_tuple in generator_args.get('idl_tuples', []):
+        idl_parts = idl_tuple.rsplit(':', 1)
+        assert len(idl_parts) == 2
+        idl_rel_path = pathlib.Path(idl_parts[1])
+        idl_stem = idl_rel_path.stem
+        generated_file = os.path.join(
+                    generator_args['output_dir'],
+                    str(idl_rel_path.parent),
+                    idl_stem + ".proto"
+        )
+        proto_files.append(str(pathlib.Path(generated_file).resolve()))
+
+    # compile proto files with protoc
+    rc = compile_proto(protoc_path     = args.protoc_path,
+                       proto_path_list = proto_path_list,
+                       cpp_out_dir     = cpp_out_dir,
+                       proto_files     = proto_files,
+                       package_name    = package_name
+    )
+    
+    return rc
+
+
+if __name__ == '__main__':
+    sys.exit(main())

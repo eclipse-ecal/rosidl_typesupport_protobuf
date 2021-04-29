@@ -1,0 +1,42 @@
+// generated from
+// rosidl_typesupport_protobuf/rosidl_adapter_proto/resource/rosidl_adapter_proto__visibility_control.h.in
+// generated code does not contain a copyright notice
+#pragma once
+
+#ifdef __cplusplus
+extern "C"
+{
+#endif
+
+// This logic was borrowed (then namespaced) from the examples on the gcc wiki:
+//     https://gcc.gnu.org/wiki/Visibility
+
+#if defined _WIN32 || defined __CYGWIN__
+  #ifdef __GNUC__
+    #define ROSIDL_ADAPTER_PROTO_EXPORT__@PROJECT_NAME@ __attribute__ ((dllexport))
+    #define ROSIDL_ADAPTER_PROTO_IMPORT__@PROJECT_NAME@ __attribute__ ((dllimport))
+  #else
+    #define ROSIDL_ADAPTER_PROTO_EXPORT__@PROJECT_NAME@ __declspec(dllexport)
+    #define ROSIDL_ADAPTER_PROTO_IMPORT__@PROJECT_NAME@ __declspec(dllimport)
+  #endif
+  #ifdef ROSIDL_ADAPTER_PROTO_BUILDING_DLL__@PROJECT_NAME@
+    #define ROSIDL_ADAPTER_PROTO_PUBLIC__@PROJECT_NAME@ ROSIDL_ADAPTER_PROTO_EXPORT__@PROJECT_NAME@
+  #else
+    #define ROSIDL_ADAPTER_PROTO_PUBLIC__@PROJECT_NAME@ ROSIDL_ADAPTER_PROTO_IMPORT__@PROJECT_NAME@
+  #endif
+  #define ROSIDL_ADAPTER_PROTO_LOCAL__@PROJECT_NAME@
+#else
+  #define ROSIDL_ADAPTER_PROTO_EXPORT__@PROJECT_NAME@ __attribute__ ((visibility("default")))
+  #define ROSIDL_ADAPTER_PROTO_IMPORT__@PROJECT_NAME@
+  #if __GNUC__ >= 4
+    #define ROSIDL_ADAPTER_PROTO_PUBLIC__@PROJECT_NAME@ __attribute__ ((visibility("default")))
+    #define ROSIDL_ADAPTER_PROTO_LOCAL__@PROJECT_NAME@  __attribute__ ((visibility("hidden")))
+  #else
+    #define ROSIDL_ADAPTER_PROTO_PUBLIC__@PROJECT_NAME@
+    #define ROSIDL_ADAPTER_PROTO_LOCAL__@PROJECT_NAME@
+  #endif
+#endif
+
+#ifdef __cplusplus
+}
+#endif
