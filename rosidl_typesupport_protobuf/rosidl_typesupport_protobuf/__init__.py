@@ -67,7 +67,7 @@ def ros_message_functions_header_c(package_name, interface_path):
   return f"{include_base}__functions.h"
 
 def ros_message_functions_header_c_from_namespace(namespace, name):
-  include_parts = namespace;
+  include_parts = list(namespace)
   if CURRENT_DISTRO >= DISTROS["foxy"]:
      include_parts += ["detail"]
   include_parts += [convert_camel_case_to_lower_case_underscore(name)]

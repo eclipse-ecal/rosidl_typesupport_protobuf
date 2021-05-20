@@ -25,8 +25,8 @@ from rosidl_typesupport_protobuf import *
 
 ros_type_ns = ros_type_namespace(package_name, interface_path)
 ros_type_name = ros_type_name(message)
-ros_type = ros_type(package_name=package_name, interface_path=interface_path, message=message)
-proto_type = protobuf_type(package_name=package_name, interface_path=interface_path, message=message)
+ros_type = ros_type(package_name, interface_path, message)
+proto_type = protobuf_type(package_name, interface_path, message)
 
 system_header_files = [
     'string',
