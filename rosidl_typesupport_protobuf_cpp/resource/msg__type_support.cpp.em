@@ -146,7 +146,6 @@ bool convert_to_ros(const @(proto_type) &pb_msg, @(ros_type) &ros_msg)
     int i{0};
     for(auto &member : data)
     {
-      //auto ptr = pb_msg.add_@(member.name)();
       @("::" + "::".join(member.type.value_type.namespaces))::typesupport_protobuf_cpp::convert_to_ros(member, ros_data[i]);
       i++;
     }

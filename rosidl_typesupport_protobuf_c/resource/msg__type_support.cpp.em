@@ -142,7 +142,6 @@ bool convert_to_proto(const @(ros_type) &ros_msg, @(proto_type) &pb_msg)
     arr_ptr->Reserve(size);
     for(size_t i{0}; i < size; i++)
     {
-      //arr_ptr->Add(std::string{data[i].data, data[i].size});
       pb_msg.add_@(member.name)(std::string{data[i].data, data[i].size});
     }
 @[      elif isinstance(member.type.value_type, AbstractWString)]@
