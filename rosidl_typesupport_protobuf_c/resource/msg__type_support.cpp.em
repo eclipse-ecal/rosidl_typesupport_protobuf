@@ -62,9 +62,9 @@ for member in message.structure.members:
             typename = type_.name.rsplit('_', 1)[0]
         else:
             typename = type_.name
-        
+
         keys.add(ros_message_functions_header_c_from_namespace(type_.namespaces, typename))
-        
+
     for key in keys:
       header_files.append(key)
 
@@ -142,7 +142,7 @@ bool convert_to_proto(const @(ros_type) &ros_msg, @(proto_type) &pb_msg)
     arr_ptr->Reserve(size);
     for(size_t i{0}; i < size; i++)
     {
-      arr_ptr->Add({data[i].data, data[i].size});
+      pb_msg.add_@(member.name)(std::string{data[i].data, data[i].size});
     }
 @[      elif isinstance(member.type.value_type, AbstractWString)]@
     arr_ptr->Reserve(size);
@@ -156,7 +156,7 @@ bool convert_to_proto(const @(ros_type) &ros_msg, @(proto_type) &pb_msg)
     {
       auto obj{arr_ptr->Add()};
       @("::" + "::".join(member.type.value_type.namespaces))::typesupport_protobuf_c::convert_to_proto(data[i], *obj);
-    } 
+    }
 @[      end if]@
   }
 @[    end if]@
@@ -183,23 +183,23 @@ bool convert_to_ros(const @(proto_type) &pb_msg, @(ros_type) &ros_msg)
 @[    if isinstance(member.type, Array)]@
   {
     auto &pb_arr{pb_msg.@(member.name)()};
-    
+
 @[      if isinstance(member.type.value_type, BasicType)]@
     std::copy(pb_arr.begin(), pb_arr.end(), ros_msg.@(member.name));
 @[      elif isinstance(member.type.value_type, AbstractString)]@
     for(size_t i{0}; i < sizeof(ros_msg.@(member.name))/sizeof(ros_msg.@(member.name)[0]); i++)
     {
-      ::typesupport_protobuf_c::to_ros_c_string(pb_arr[i], ros_msg.@(member.name)[i]);
+      ::typesupport_protobuf_c::to_ros_c_string(pb_arr.Get(i), ros_msg.@(member.name)[i]);
     }
 @[      elif isinstance(member.type.value_type, AbstractWString)]@
     for(size_t i{0}; i < sizeof(ros_msg.@(member.name))/sizeof(ros_msg.@(member.name)[0]); i++)
     {
-      ::rosidl_typesupport_protobuf_c::write_to_u16string(pb_arr[i], ros_msg.@(member.name)[i]);
+      ::rosidl_typesupport_protobuf_c::write_to_u16string(pb_arr.Get(i), ros_msg.@(member.name)[i]);
     }
 @[      elif isinstance(member.type.value_type, NamespacedType)]@
     for(size_t i{0}; i < sizeof(ros_msg.@(member.name))/sizeof(ros_msg.@(member.name)[0]); i++)
     {
-      @("::" + "::".join(member.type.value_type.namespaces))::typesupport_protobuf_c::convert_to_ros(pb_arr[i], ros_msg.@(member.name)[i]);
+      @("::" + "::".join(member.type.value_type.namespaces))::typesupport_protobuf_c::convert_to_ros(pb_arr.Get(i), ros_msg.@(member.name)[i]);
     }
 @[      end if]@
   }
@@ -234,17 +234,17 @@ else:
 @[      elif isinstance(member.type.value_type, AbstractString)]@
     for(int i{0}; i < size; i++)
     {
-      ::typesupport_protobuf_c::to_ros_c_string(pb_arr[i], ros_arr[i]);
+      ::typesupport_protobuf_c::to_ros_c_string(pb_arr.Get(i), ros_arr[i]);
     }
 @[      elif isinstance(member.type.value_type, AbstractWString)]@
     for(int i{0}; i < size; i++)
     {
-      ::rosidl_typesupport_protobuf_c::write_to_u16string(pb_arr[i], ros_arr[i]);
+      ::rosidl_typesupport_protobuf_c::write_to_u16string(pb_arr.Get(i), ros_arr[i]);
     }
 @[      elif isinstance(member.type.value_type, NamespacedType)]@
     for(int i{0}; i < size; i++)
     {
-      @("::" + "::".join(member.type.value_type.namespaces))::typesupport_protobuf_c::convert_to_ros(pb_arr[i], ros_arr[i]);
+      @("::" + "::".join(member.type.value_type.namespaces))::typesupport_protobuf_c::convert_to_ros(pb_arr.Get(i), ros_arr[i]);
     }
 @[      end if]@
   }
