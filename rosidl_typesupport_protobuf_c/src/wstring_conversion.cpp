@@ -17,8 +17,6 @@
  * ================================ Apache 2.0 =================================
  */
 
-#pragma once
-
 #include "rosidl_typesupport_protobuf_c/wstring_conversion.hpp"
 
 #include <cstring>

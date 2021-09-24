@@ -17,8 +17,6 @@
  * ================================ Apache 2.0 =================================
  */
 
-#pragma once
-
 #include "rosidl_typesupport_protobuf_c/to_ros_c_string.hpp"
 
 namespace typesupport_protobuf_c
