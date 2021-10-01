@@ -24,7 +24,7 @@ from rosidl_parser import definition
 # A postfix for the protobuf package name / the c++ namespace
 PROTO_PACKAGE_POSTFIX = "pb"
 
-DISTROS = {"dashing": 0, "eloquent": 1, "foxy": 2}
+DISTROS = {"dashing": 0, "eloquent": 1, "foxy": 2, "galactic": 3}
 CURRENT_DISTRO_NAME = os.getenv("ROS_DISTRO")
 CURRENT_DISTRO = DISTROS[CURRENT_DISTRO_NAME]
 
