@@ -57,25 +57,19 @@ endif()
 find_package(rmw REQUIRED)
 find_package(ament_cmake_python REQUIRED)
 find_package(rosidl_typesupport_protobuf REQUIRED)
-find_package(rosidl_generator_c REQUIRED)
-if(${is_foxy_or_greater})
-  find_package(rosidl_runtime_c REQUIRED)
-endif()
 find_package(rosidl_typesupport_introspection_c REQUIRED)
 find_package(rosidl_typesupport_introspection_cpp REQUIRED)
 
 ament_export_dependencies(rmw)
 ament_export_dependencies(rosidl_cmake)
-ament_export_dependencies(rosidl_generator_c)
-if(${is_foxy_or_greater})
-  ament_export_dependencies(rosidl_runtime_c)
-endif()
 ament_export_dependencies(rosidl_typesupport_introspection_c)
 ament_export_dependencies(rosidl_typesupport_introspection_cpp)
 ament_export_dependencies(rosidl_typesupport_interface)
 ament_export_dependencies(rosidl_typesupport_protobuf)
 
 ament_export_include_directories(include)
+
+ament_export_dependencies(rosidl_adapter_proto)
 
 ament_python_install_package(${PROJECT_NAME})
 

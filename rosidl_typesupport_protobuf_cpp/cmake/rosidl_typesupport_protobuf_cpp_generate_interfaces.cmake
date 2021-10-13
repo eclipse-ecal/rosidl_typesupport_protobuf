@@ -140,8 +140,13 @@ set_target_properties(${rosidl_generate_interfaces_TARGET}${_target_suffix}
 )
 
 # Include headers from other generators
-target_include_directories(${rosidl_generate_interfaces_TARGET}${_target_suffix}
-  PUBLIC
+# This is supposed to be
+# `target_include_directories(${rosidl_generate_interfaces_TARGET}${_target_suffix}`
+# but there's no way to pass the include folder to the top level target
+# ${rosidl_generate_interfaces_TARGET}.
+# This include_directories will only be used if message is used in the package
+# where it's created
+include_directories(
   ${_output_path}
   ${Protobuf_INCLUDE_DIR}
   ${rosidl_adapter_proto_INCLUDE_DIR}
@@ -155,6 +160,8 @@ ament_target_dependencies(${rosidl_generate_interfaces_TARGET}${_target_suffix}
   rosidl_typesupport_protobuf_cpp
   rosidl_typesupport_interface
 )
+
+ament_export_dependencies(rosidl_typesupport_protobuf rosidl_typesupport_protobuf_cpp)
 
 # Depend on dependencies
 foreach(_pkg_name ${rosidl_generate_interfaces_DEPENDENCY_PACKAGE_NAMES})
@@ -199,5 +206,5 @@ if(NOT rosidl_generate_interfaces_SKIP_INSTALL)
   rosidl_export_typesupport_libraries(${_target_suffix}
     ${rosidl_generate_interfaces_TARGET}${_target_suffix})
 
-  ament_export_libraries(${rosidl_generate_interfaces_TARGET}${_target_suffix})
+  ament_export_libraries(${rosidl_generate_interfaces_TARGET}${_target_suffix} ${Protobuf_LIBRARY})
 endif()

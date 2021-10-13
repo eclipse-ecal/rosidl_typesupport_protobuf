@@ -142,6 +142,8 @@ configure_file(
   @ONLY
 )
 
+ament_export_dependencies(rosidl_typesupport_protobuf rosidl_typesupport_protobuf_c)
+
 # Depend on dependencies
 foreach(_pkg_name ${rosidl_generate_interfaces_DEPENDENCY_PACKAGE_NAMES})
   ament_target_dependencies(${rosidl_generate_interfaces_TARGET}${_target_suffix}
@@ -181,5 +183,5 @@ if(NOT rosidl_generate_interfaces_SKIP_INSTALL)
   rosidl_export_typesupport_libraries(${_target_suffix}
     ${rosidl_generate_interfaces_TARGET}${_target_suffix})
 
-  ament_export_libraries(${rosidl_generate_interfaces_TARGET}${_target_suffix})
+  ament_export_libraries(${rosidl_generate_interfaces_TARGET}${_target_suffix} ${Protobuf_LIBRARY})
 endif()
