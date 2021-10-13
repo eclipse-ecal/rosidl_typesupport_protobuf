@@ -83,14 +83,21 @@ configure_file(
   @ONLY
 )
 
-install(
-  DIRECTORY ${rosidl_adapter_proto_OUTPUT_DIR}
-  DESTINATION "include/"
-  PATTERN "*.h"
-)
+# Headers inside `build` folder is meant to be used by the current msg
+# package. Anything downstream packages should use the headers in `install`
+# folder.
+include_directories("${CMAKE_CURRENT_BINARY_DIR}/rosidl_adapter_proto")
 
-install(
-  DIRECTORY ${rosidl_adapter_proto_OUTPUT_DIR}
-  DESTINATION "share/"
-  PATTERN "*.proto"
-)
+if(NOT rosidl_generate_interfaces_SKIP_INSTALL)
+  install(
+    DIRECTORY ${rosidl_adapter_proto_OUTPUT_DIR}
+    DESTINATION "include/"
+    PATTERN "*.h"
+  )
+
+  install(
+    DIRECTORY ${rosidl_adapter_proto_OUTPUT_DIR}
+    DESTINATION "share/"
+    PATTERN "*.proto"
+  )
+endif()

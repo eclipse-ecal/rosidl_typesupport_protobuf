@@ -79,6 +79,24 @@ def main(argv=sys.argv[1:]):
                        proto_files     = proto_files,
                        package_name    = package_name
     )
+
+    # Modify the generated .pb.h to include visibility file
+    for proto_file in proto_files:
+        # Just in case if the path contains another <xxx>.proto, e.g., 
+        # /home/<xxx>.proto/<path-to-proto-file>
+        proto_file = proto_file.split("/")
+        msg_type = proto_file[-2]
+        msg = os.path.splitext(proto_file[-1])[0]
+
+        with open(f"{cpp_out_dir}/{package_name}/{msg_type}/{msg}.pb.h", "r") as f:
+            contents = f.readlines()
+
+        # Insert the visibility file on line 6
+        contents.insert(
+            6,
+            f"#include <{package_name}/rosidl_adapter_proto__visibility_control.h>\n")
+        with open(f"{cpp_out_dir}/{package_name}/{msg_type}/{msg}.pb.h", "w") as f:
+            f.write("".join(contents))
     
     return rc
 
