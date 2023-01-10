@@ -21,6 +21,7 @@ set(supported_distros
 	eloquent
 	foxy
 	galactic
+	humble
   rolling
 )
 
