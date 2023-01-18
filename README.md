@@ -2,6 +2,19 @@
 
 Middleware agnostic ros2 static typesupport which uses Protobuf for serialization/deserialization.
 
+## rosidl_typesupport_protobuf is looking for a maintainer
+
+We (the [Eclipse eCAL Team](https://projects.eclipse.org/projects/automotive.ecal/who)) have reached our maximum capacity. Therefore, we currently cannot support this project as well as we would like to and **need your help**! 🫵
+
+You can help by:
+- Testing it with the latest ROS versions
+- Creating Pull requests
+- Answering other users' questions
+
+If you would like to actively maintain this project, feel free to contact us 😊
+
+_We are not abandoning this project and are happy to help and resolve any eCAL related issues._
+
 ## Build instructions
 
 * Clone latest release of this repository into your [ROS2 workspace](https://index.ros.org/doc/ros2/Tutorials/Workspace/Creating-A-Workspace/)
