@@ -40,7 +40,6 @@ if (CMAKE_CXX_COMPILER_ID MATCHES "MSVC")
 	add_compile_definitions(_CRT_SECURE_NO_WARNINGS)
 endif()
 
-find_package(ament_cmake REQUIRED)
 if(PROTOBUF_STATIC_DISABLE)
   ament_package()
   message(STATUS "Protobuf static typesupport implementation explicitly disabled - skipping '${PROJECT_NAME}'")
@@ -54,12 +53,18 @@ find_package(rosidl_generator_c REQUIRED)
 ament_export_dependencies(rmw)
 ament_export_dependencies(rcutils)
 ament_export_dependencies(rosidl_cmake)
-ament_export_dependencies(rosidl_generator_c)
-ament_export_dependencies(rosidl_generator_cpp)
 ament_export_dependencies(rosidl_typesupport_interface)
 ament_export_dependencies(rosidl_typesupport_protobuf)
+ament_export_dependencies(rosidl_adapter_proto)
 
 ament_export_include_directories(include)
+
+if(${is_foxy_or_greater})
+  ament_export_dependencies(rosidl_runtime_cpp)
+else()
+  ament_export_dependencies(rosidl_generator_c)
+  ament_export_dependencies(rosidl_generator_cpp)
+endif()
 
 ament_python_install_package(${PROJECT_NAME})
 

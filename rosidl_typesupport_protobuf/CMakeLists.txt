@@ -22,8 +22,15 @@ project(rosidl_typesupport_protobuf)
 
 find_package(ament_cmake REQUIRED)
 find_package(ament_cmake_python REQUIRED)
-find_package(rosidl_generator_c REQUIRED)
 
+include(${CMAKE_CURRENT_SOURCE_DIR}/cmake/discover-ros-distro-extras.cmake)
+if(is_foxy_or_greater)
+  find_package(rosidl_runtime_c REQUIRED)
+  ament_export_dependencies(rosidl_runtime_c)
+else()
+  find_package(rosidl_generator_c REQUIRED)
+  ament_export_dependencies(rosidl_generator_c)
+endif()
 ament_export_include_directories(include)
 
 ament_python_install_package(${PROJECT_NAME})
