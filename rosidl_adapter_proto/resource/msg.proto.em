@@ -38,7 +38,7 @@ for annotation in message.structure.annotations:
             and ("language" in annotation.value) \
             and (annotation.value["language"] == "comment") \
             and ("text" in annotation.value):
-        comment = "//" + re.sub(r"\\n", "\n//", annotation.value["text"])
+        comment = "//" + re.sub("\n", "\n// ", annotation.value["text"])
         break
 }@
 @[if comment != ""]@
@@ -119,7 +119,7 @@ for member in message.structure.members:
                 and ("language" in annotation.value) \
                 and (annotation.value["language"] == "comment") \
                 and ("text" in annotation.value):
-            member_dict["comment"] = "  //" + re.sub(r"\\n", "\n  //", annotation.value["text"])
+            member_dict["comment"] = "  //" + re.sub("\n", "\n  //", annotation.value["text"])
         if (annotation.name == "unit") and ("value" in annotation.value):
             member_dict["unit"] = annotation.value["value"]
 
