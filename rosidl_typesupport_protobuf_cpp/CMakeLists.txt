@@ -74,13 +74,18 @@ if(WIN32)
     PRIVATE "ROSIDL_TYPESUPPORT_PROTOBUF_CPP_BUILDING_DLL")
 endif()
 
-target_include_directories(${PROJECT_NAME}
-  PUBLIC include
-)
+target_include_directories(${PROJECT_NAME} PUBLIC
+  "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>"
+  "$<INSTALL_INTERFACE:include/${PROJECT_NAME}>")
 
 ament_target_dependencies(${PROJECT_NAME} rosidl_typesupport_protobuf)
 
+# Export old-style CMake variables
+ament_export_include_directories("include/${PROJECT_NAME}")
 ament_export_libraries(${PROJECT_NAME})
+
+# Export modern CMake targets
+ament_export_targets(${PROJECT_NAME})
 
 ament_index_register_resource("rosidl_typesupport_cpp")
 
