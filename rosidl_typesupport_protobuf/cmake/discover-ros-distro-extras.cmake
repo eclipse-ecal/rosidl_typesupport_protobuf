@@ -30,15 +30,9 @@ if(index EQUAL -1)
   message(FATAL_ERROR "'$ENV{ROS_DISTRO}' is an unsupported ros2 distro.")
 endif()
 
-list(FIND supported_distros foxy foxy_index)
 
-if(${index} GREATER_EQUAL ${foxy_index})
-  set(is_foxy_or_greater true)
-else()
-  set(is_foxy_or_greater false)
-endif()
-
-
+# TODO(tfoote) There's better ways to get the rosdistro.
+# Find where this is being used and clean it up.
 set(distro_index 0)
 foreach(distro ${supported_distros})
   add_compile_definitions("$<UPPER_CASE:${distro}>=${distro_index}")
