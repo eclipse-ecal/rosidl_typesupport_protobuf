@@ -24,13 +24,13 @@ find_package(ament_cmake REQUIRED)
 find_package(ament_cmake_python REQUIRED)
 find_package(rosidl_generator_c REQUIRED)
 
-ament_export_include_directories(include)
+ament_export_include_directories("include/${PROJECT_NAME}")
 
 ament_python_install_package(${PROJECT_NAME})
 
 install(
   DIRECTORY include/
-  DESTINATION include
+  DESTINATION include/${PROJECT_NAME}
 )
 
 ament_package(CONFIG_EXTRAS "cmake/discover-ros-distro-extras.cmake")
