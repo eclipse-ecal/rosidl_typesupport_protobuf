@@ -71,8 +71,6 @@ ament_export_dependencies(rosidl_typesupport_introspection_cpp)
 ament_export_dependencies(rosidl_typesupport_interface)
 ament_export_dependencies(rosidl_typesupport_protobuf)
 
-ament_export_include_directories(include)
-
 ament_python_install_package(${PROJECT_NAME})
 
 add_library(${PROJECT_NAME} SHARED
@@ -118,7 +116,7 @@ install(
 
 install(
   DIRECTORY include/
-  DESTINATION include
+  DESTINATION include/${PROJECT_NAME}
 )
 
 install(
