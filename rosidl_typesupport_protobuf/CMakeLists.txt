@@ -33,4 +33,4 @@ install(
   DESTINATION include/${PROJECT_NAME}
 )
 
-ament_package(CONFIG_EXTRAS "cmake/discover-ros-distro-extras.cmake")
+ament_package()
