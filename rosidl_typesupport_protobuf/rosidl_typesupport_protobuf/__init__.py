@@ -24,10 +24,6 @@ from rosidl_parser import definition
 # A postfix for the protobuf package name / the c++ namespace
 PROTO_PACKAGE_POSTFIX = "pb"
 
-DISTROS = {"dashing": 0, "eloquent": 1, "foxy": 2, "galactic": 3, "humble": 4}
-CURRENT_DISTRO_NAME = os.getenv("ROS_DISTRO")
-CURRENT_DISTRO = DISTROS[CURRENT_DISTRO_NAME]
-
 _TYPE_SUPPORT_NAME = ""
 _NAMESPACE_DELIMETER = ""
 
@@ -41,8 +37,7 @@ def set_namespace_delimeter(val):
 
 def ros_message_header(package_name, interface_path):
   include_parts = [package_name] + list(interface_path.parents[0].parts)
-  if CURRENT_DISTRO >= DISTROS["foxy"]:
-    include_parts += ["detail"] 
+  include_parts += ["detail"] 
   include_parts += [convert_camel_case_to_lower_case_underscore(interface_path.stem)]
   include_base = '/'.join(include_parts)
 
@@ -50,8 +45,7 @@ def ros_message_header(package_name, interface_path):
 
 def ros_message_header_c(package_name, interface_path):
   include_parts = [package_name] + list(interface_path.parents[0].parts)
-  if CURRENT_DISTRO >= DISTROS["foxy"]:
-    include_parts += ["detail"]
+  include_parts += ["detail"]
   include_parts += [convert_camel_case_to_lower_case_underscore(interface_path.stem)]
   include_base = '/'.join(include_parts)
 
@@ -59,8 +53,7 @@ def ros_message_header_c(package_name, interface_path):
 
 def ros_message_functions_header_c(package_name, interface_path):
   include_parts = [package_name] + list(interface_path.parents[0].parts)
-  if CURRENT_DISTRO >= DISTROS["foxy"]:
-     include_parts += ["detail"]
+  include_parts += ["detail"]
   include_parts += [convert_camel_case_to_lower_case_underscore(interface_path.stem)]
   include_base = '/'.join(include_parts)
 
@@ -68,8 +61,7 @@ def ros_message_functions_header_c(package_name, interface_path):
 
 def ros_message_functions_header_c_from_namespace(namespace, name):
   include_parts = list(namespace)
-  if CURRENT_DISTRO >= DISTROS["foxy"]:
-     include_parts += ["detail"]
+  include_parts += ["detail"]
   include_parts += [convert_camel_case_to_lower_case_underscore(name)]
   include_base = '/'.join(include_parts)
 
