@@ -76,7 +76,9 @@ target_include_directories(${PROJECT_NAME} PUBLIC
   "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>"
   "$<INSTALL_INTERFACE:include/${PROJECT_NAME}>")
 
-ament_target_dependencies(${PROJECT_NAME} rosidl_typesupport_protobuf)
+ament_target_dependencies(${PROJECT_NAME} rosidl_typesupport_protobuf rosidl_runtime_cpp)
+
+ament_export_dependencies(rosidl_runtime_cpp)
 
 # Export old-style CMake variables
 ament_export_include_directories("include/${PROJECT_NAME}")
