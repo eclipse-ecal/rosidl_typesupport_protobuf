@@ -26,7 +26,7 @@ set(rosidl_adapter_proto_OUTPUT_DIR "${CMAKE_CURRENT_BINARY_DIR}/rosidl_adapter_
 # Create a list of proto directories
 set(_proto_include_dirs "")
 foreach(_pkg_name ${rosidl_generate_interfaces_DEPENDENCY_PACKAGE_NAMES})
-  set(_proto_dir "${${_pkg_name}_DIR}/../../../share/")
+  set(_proto_dir "${${_pkg_name}_DIR}/../../../share/${_pkg_name}")
   normalize_path(_proto_dir "${_proto_dir}")
   list(APPEND _proto_include_dirs "${_proto_dir}")
 endforeach()
