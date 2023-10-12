@@ -85,12 +85,12 @@ configure_file(
 
 install(
   DIRECTORY ${rosidl_adapter_proto_OUTPUT_DIR}
-  DESTINATION "include/"
+  DESTINATION "include/${PROJECT_NAME}"
   PATTERN "*.h"
 )
 
 install(
   DIRECTORY ${rosidl_adapter_proto_OUTPUT_DIR}
-  DESTINATION "share/"
+  DESTINATION "share/${PROJECT_NAME}"
   PATTERN "*.proto"
 )
