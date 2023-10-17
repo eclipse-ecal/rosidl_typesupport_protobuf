@@ -58,6 +58,7 @@ set(target_dependencies
   "${rosidl_typesupport_protobuf_cpp_TEMPLATE_DIR}/idl__rosidl_typesupport_protobuf_cpp.hpp.em"
   "${rosidl_typesupport_protobuf_cpp_TEMPLATE_DIR}/idl__type_support.cpp.em"
   "${rosidl_typesupport_protobuf_cpp_TEMPLATE_DIR}/msg__rosidl_typesupport_protobuf_cpp.hpp.em"
+  "${rosidl_typesupport_protobuf_cpp_TEMPLATE_DIR}/idl__typeadapter_protobuf_cpp.hpp.em"
   "${rosidl_typesupport_protobuf_cpp_TEMPLATE_DIR}/msg__type_support.cpp.em"
   "${rosidl_typesupport_protobuf_cpp_TEMPLATE_DIR}/srv__rosidl_typesupport_protobuf_cpp.hpp.em"
   "${rosidl_typesupport_protobuf_cpp_TEMPLATE_DIR}/srv__type_support.cpp.em"
@@ -140,14 +141,15 @@ set_target_properties(${rosidl_generate_interfaces_TARGET}${_target_suffix}
 )
 
 # Include headers from other generators
-target_include_directories(${rosidl_generate_interfaces_TARGET}${_target_suffix}
-  PUBLIC
-  ${_output_path}
-  ${Protobuf_INCLUDE_DIR}
-  ${rosidl_adapter_proto_INCLUDE_DIR}
-  ${CMAKE_CURRENT_BINARY_DIR}/rosidl_generator_cpp
-  ${CMAKE_CURRENT_BINARY_DIR}/rosidl_typesupport_protobuf_cpp
-)
+  target_include_directories(${rosidl_generate_interfaces_TARGET}${_target_suffix}
+    PUBLIC
+    "$<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}/rosidl_adapter_proto>"
+    "$<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}/rosidl_generator_cpp>"
+    "$<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}/rosidl_generator_c>"
+    "$<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}/rosidl_typesupport_protobuf_cpp>"
+    "$<INSTALL_INTERFACE:include/${PROJECT_NAME}>"
+  )
+
 
 ament_target_dependencies(${rosidl_generate_interfaces_TARGET}${_target_suffix}
   rmw
@@ -175,22 +177,34 @@ add_dependencies(
 # Make this library depend on target created by rosidl_generator_cpp
 add_dependencies(
   ${rosidl_generate_interfaces_TARGET}${_target_suffix}
-  ${rosidl_generate_interfaces_TARGET}__cpp
+  ${rosidl_generate_interfaces_TARGET}__rosidl_generator_c
+  ${rosidl_generate_interfaces_TARGET}__rosidl_generator_cpp
 )
 
 if(NOT rosidl_generate_interfaces_SKIP_INSTALL)
   install(
     DIRECTORY "${_output_path}/"
-    DESTINATION "include/${PROJECT_NAME}"
+    DESTINATION "include/${PROJECT_NAME}/${PROJECT_NAME}"
     PATTERN "*.cpp" EXCLUDE
   )
 
   if(NOT _generated_files STREQUAL "")
-    ament_export_include_directories(include)
+    ament_export_include_directories("include/${PROJECT_NAME}")
   endif()
+
+  # Export old-style CMake variables
+  ament_export_include_directories("include/${PROJECT_NAME}")
+  rosidl_export_typesupport_libraries(${_target_suffix}
+    ${rosidl_generate_interfaces_TARGET}${_target_suffix})
+
+  # Export modern CMake targets
+  ament_export_targets(export_${rosidl_generate_interfaces_TARGET}${_target_suffix})
+  rosidl_export_typesupport_targets(${_target_suffix}
+    ${rosidl_generate_interfaces_TARGET}${_target_suffix})
 
   install(
     TARGETS ${rosidl_generate_interfaces_TARGET}${_target_suffix}
+    EXPORT export_${rosidl_generate_interfaces_TARGET}${_target_suffix}
     ARCHIVE DESTINATION lib
     LIBRARY DESTINATION lib
     RUNTIME DESTINATION bin

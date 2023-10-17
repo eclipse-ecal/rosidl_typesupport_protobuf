@@ -41,9 +41,9 @@ if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
   add_compile_options(-Wall -Wextra -Wpedantic)
 endif()
 
-if (CMAKE_CXX_COMPILER_ID MATCHES "MSVC")
-	add_compile_options(/W4)
-	add_compile_definitions(_CRT_SECURE_NO_WARNINGS)
+if(CMAKE_CXX_COMPILER_ID MATCHES "MSVC")
+  add_compile_options(/W4)
+  add_compile_definitions(_CRT_SECURE_NO_WARNINGS)
 endif()
 
 find_package(ament_cmake REQUIRED)
@@ -58,6 +58,7 @@ find_package(rmw REQUIRED)
 find_package(ament_cmake_python REQUIRED)
 find_package(rosidl_typesupport_protobuf REQUIRED)
 find_package(rosidl_generator_c REQUIRED)
+find_package(rosidl_generator_cpp REQUIRED)
 find_package(rosidl_runtime_c REQUIRED)
 find_package(rosidl_typesupport_introspection_c REQUIRED)
 find_package(rosidl_typesupport_introspection_cpp REQUIRED)
@@ -65,6 +66,7 @@ find_package(rosidl_typesupport_introspection_cpp REQUIRED)
 ament_export_dependencies(rmw)
 ament_export_dependencies(rosidl_cmake)
 ament_export_dependencies(rosidl_generator_c)
+ament_export_dependencies(rosidl_generator_cpp)
 ament_export_dependencies(rosidl_runtime_c)
 ament_export_dependencies(rosidl_typesupport_introspection_c)
 ament_export_dependencies(rosidl_typesupport_introspection_cpp)
@@ -83,7 +85,9 @@ if(WIN32)
     PRIVATE "ROSIDL_TYPESUPPORT_PROTOBUF_C_BUILDING_DLL")
 endif()
 
-# TODO(tfoote) This needs cpp to build due to https://github.com/tfoote/rosidl_typesupport_protobuf/blob/132668ae385163ee8b45ce45a9022654e5c77666/rosidl_typesupport_protobuf_c/resource/msg__rosidl_typesupport_protobuf_c.hpp.em#L30
+# TODO(tfoote) This needs cpp to build due to
+# https://github.com/tfoote/rosidl_typesupport_protobuf/blob/132668ae385163ee8b45ce45a9022654e5c77666/
+# rosidl_typesupport_protobuf_c/resource/msg__rosidl_typesupport_protobuf_c.hpp.em#L30
 # This looks like it might want to be cleaned up.
 ament_target_dependencies(${PROJECT_NAME} "rosidl_typesupport_protobuf" rosidl_runtime_c rosidl_runtime_cpp)
 

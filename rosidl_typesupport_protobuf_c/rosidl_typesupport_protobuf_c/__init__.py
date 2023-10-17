@@ -14,6 +14,7 @@
 
 from rosidl_cmake import generate_files
 
+
 def generate_typesupport_protobuf_c(generator_arguments_file):
     mapping = {
         'idl__rosidl_typesupport_protobuf_c.hpp.em': '%s__rosidl_typesupport_protobuf_c.hpp',
