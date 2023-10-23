@@ -58,6 +58,7 @@ set(target_dependencies
   "${rosidl_typesupport_protobuf_cpp_TEMPLATE_DIR}/idl__rosidl_typesupport_protobuf_cpp.hpp.em"
   "${rosidl_typesupport_protobuf_cpp_TEMPLATE_DIR}/idl__type_support.cpp.em"
   "${rosidl_typesupport_protobuf_cpp_TEMPLATE_DIR}/msg__rosidl_typesupport_protobuf_cpp.hpp.em"
+  "${rosidl_typesupport_protobuf_cpp_TEMPLATE_DIR}/idl__typeadapter_protobuf_cpp.hpp.em"
   "${rosidl_typesupport_protobuf_cpp_TEMPLATE_DIR}/msg__type_support.cpp.em"
   "${rosidl_typesupport_protobuf_cpp_TEMPLATE_DIR}/srv__rosidl_typesupport_protobuf_cpp.hpp.em"
   "${rosidl_typesupport_protobuf_cpp_TEMPLATE_DIR}/srv__type_support.cpp.em"
@@ -181,12 +182,12 @@ add_dependencies(
 if(NOT rosidl_generate_interfaces_SKIP_INSTALL)
   install(
     DIRECTORY "${_output_path}/"
-    DESTINATION "include/${PROJECT_NAME}"
+    DESTINATION "include/${PROJECT_NAME}/${PROJECT_NAME}"
     PATTERN "*.cpp" EXCLUDE
   )
 
   if(NOT _generated_files STREQUAL "")
-    ament_export_include_directories(include)
+    ament_export_include_directories("include/${PROJECT_NAME}")
   endif()
 
   install(
