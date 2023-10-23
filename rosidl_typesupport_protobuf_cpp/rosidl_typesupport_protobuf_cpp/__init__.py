@@ -23,6 +23,7 @@ from rosidl_cmake import generate_files, convert_camel_case_to_lower_case_unders
 def generate_cpp(generator_arguments_file):
     mapping = {
         "idl__rosidl_typesupport_protobuf_cpp.hpp.em": "%s__rosidl_typesupport_protobuf_cpp.hpp",
+        "idl__typeadapter_protobuf_cpp.hpp.em": "%s__typeadapter_protobuf_cpp.hpp",
         "idl__type_support.cpp.em": "detail/%s__type_support.cpp",
     }
     generate_files(generator_arguments_file, mapping)
