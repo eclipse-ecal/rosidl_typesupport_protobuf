@@ -30,7 +30,9 @@ system_header_files = [
 ]
 
 header_files = [
+    "rclcpp/type_adapter.hpp",
     ros_message_header(package_name, interface_path),
+    typesupport_message_header(package_name, interface_path),
     visibility_control_header(package_name),
     'rosidl_typesupport_protobuf/rosidl_generator_c_pkg_adapter.hpp',
     'rosidl_typesupport_interface/macros.h',
@@ -75,7 +77,7 @@ proto_type = protobuf_type(package_name, interface_path, message)
      const custom_type & source,
      ros_message_type & destination)
     {
-     @("::".join(message.structure.namespaced_type.namespaces))::typesupport_protobuf_c::convert_to_ros(source, destination);
+     @("::".join(message.structure.namespaced_type.namespaces))::typesupport_protobuf_cpp::convert_to_ros(source, destination);
     }
 
     static
@@ -84,7 +86,7 @@ proto_type = protobuf_type(package_name, interface_path, message)
       const ros_message_type & source,
       custom_type & destination)
     {
-      @("::".join(message.structure.namespaced_type.namespaces))::typesupport_protobuf_c::convert_to_proto(source, destination);
+      @("::".join(message.structure.namespaced_type.namespaces))::typesupport_protobuf_cpp::convert_to_proto(source, destination);
     }
   };
 
