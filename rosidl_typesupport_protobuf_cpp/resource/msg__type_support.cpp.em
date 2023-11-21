@@ -107,7 +107,7 @@ bool convert_to_ros(const @(proto_type) &pb_msg, @(ros_type) &ros_msg)
 @[  if isinstance(member.type, AbstractNestedType)]@
 @[    if isinstance(member.type.value_type, BasicType) or isinstance(member.type.value_type, AbstractString)]@
 @[      if isinstance(member.type, Array)]@
-  std::copy_n(pb_msg.@(member.name)().begin(), ros_msg.@(member.name).size(), ros_msg.@(member.name).begin());
+  std::copy_n(pb_msg.@(member.name)().begin(), pb_msg.@(member.name)().size(), ros_msg.@(member.name).begin());
 @[      else]@
 @[        if isinstance(member.type.value_type, BasicType) and member.type.value_type.typename == BOOLEAN_TYPE]@
   for(auto val : pb_msg.@(member.name)())

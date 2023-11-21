@@ -51,8 +51,6 @@ TEMPLATE(
 )
 }@
 
-namespace rclcpp 
-{
 
 
 @[for message in content.get_elements_of_type(Message)]@
@@ -63,6 +61,9 @@ ros_type_name = ros_type_name(message)
 ros_type = ros_type(package_name, interface_path, message)
 proto_type = protobuf_type(package_name, interface_path, message)
 }@
+
+namespace rclcpp 
+{
 
   template<>
   struct TypeAdapter<@(proto_type),  @(ros_type)>
@@ -90,7 +91,22 @@ proto_type = protobuf_type(package_name, interface_path, message)
     }
   };
 
+}
+
+@[for ns in message.structure.namespaced_type.namespaces]@
+namespace @(ns)
+{
+@[end for]@
+namespace typesupport_protobuf_cpp
+{
+
+using @(message.structure.namespaced_type.name)TypeAdapter = rclcpp::TypeAdapter<@(proto_type),  @(ros_type)>;
+
+}  // namespace typesupport_protobuf_cpp
+@[  for ns in reversed(message.structure.namespaced_type.namespaces)]@
+}  // namespace @(ns)
+@[  end for]@
+
 @[end for]@
 
-}
 
