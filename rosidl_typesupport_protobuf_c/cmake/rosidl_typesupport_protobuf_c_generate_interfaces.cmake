@@ -97,13 +97,6 @@ set_target_properties(${rosidl_generate_interfaces_TARGET}${_target_suffix}
   PROPERTIES CXX_STANDARD 14
 )
 
-ament_target_dependencies(${rosidl_generate_interfaces_TARGET}${_target_suffix}
-  rmw
-  rosidl_typesupport_protobuf
-  rosidl_typesupport_protobuf_c
-  rosidl_typesupport_interface
-)
-
 # Set flag for visibility macro
 if(WIN32)
   target_compile_definitions(${rosidl_generate_interfaces_TARGET}${_target_suffix}
@@ -122,15 +115,24 @@ set_target_properties(${rosidl_generate_interfaces_TARGET}${_target_suffix}
   PROPERTIES COMPILE_FLAGS "${_target_compile_flags}"
 )
 
+# Include headers from other generators
 target_include_directories(${rosidl_generate_interfaces_TARGET}${_target_suffix}
-  PUBLIC
-  ${_output_path}
-  ${Protobuf_INCLUDE_DIR}
-  ${rosidl_adapter_proto_INCLUDE_DIR}
-  ${CMAKE_CURRENT_BINARY_DIR}/rosidl_generator_c
-  ${CMAKE_CURRENT_BINARY_DIR}/rosidl_generator_cpp
-  ${CMAKE_CURRENT_BINARY_DIR}/rosidl_typesupport_protobuf_c
+PUBLIC
+"$<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}/rosidl_adapter_proto>"
+"$<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}/rosidl_generator_cpp>"
+"$<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}/rosidl_generator_c>"
+"$<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}/rosidl_typesupport_protobuf_c>"
+"$<INSTALL_INTERFACE:include/${PROJECT_NAME}>"
 )
+
+
+ament_target_dependencies(${rosidl_generate_interfaces_TARGET}${_target_suffix}
+  rmw
+  rosidl_typesupport_protobuf
+  rosidl_typesupport_protobuf_c
+  rosidl_typesupport_interface
+)
+
 
 # generate header to switch between export and import for a specific package
 set(_visibility_control_file
@@ -151,13 +153,13 @@ foreach(_pkg_name ${rosidl_generate_interfaces_DEPENDENCY_PACKAGE_NAMES})
 endforeach()
 
 target_link_libraries(${rosidl_generate_interfaces_TARGET}${_target_suffix}
-  ${rosidl_generate_interfaces_TARGET}__rosidl_generator_c
   ${Protobuf_LIBRARY}
 )
 
 add_dependencies(
-  ${rosidl_generate_interfaces_TARGET}
   ${rosidl_generate_interfaces_TARGET}${_target_suffix}
+  ${rosidl_generate_interfaces_TARGET}__rosidl_generator_c
+  ${rosidl_generate_interfaces_TARGET}__rosidl_generator_cpp
 )
 
 if(NOT rosidl_generate_interfaces_SKIP_INSTALL)
@@ -171,8 +173,19 @@ if(NOT rosidl_generate_interfaces_SKIP_INSTALL)
     ament_export_include_directories("include/${PROJECT_NAME}")
   endif()
 
+  # Export old-style CMake variables
+  ament_export_include_directories("include/${PROJECT_NAME}")
+  rosidl_export_typesupport_libraries(${_target_suffix}
+    ${rosidl_generate_interfaces_TARGET}${_target_suffix})
+
+  # Export modern CMake targets
+  ament_export_targets(export_${rosidl_generate_interfaces_TARGET}${_target_suffix})
+  rosidl_export_typesupport_targets(${_target_suffix}
+    ${rosidl_generate_interfaces_TARGET}${_target_suffix})
+
   install(
     TARGETS ${rosidl_generate_interfaces_TARGET}${_target_suffix}
+    EXPORT export_${rosidl_generate_interfaces_TARGET}${_target_suffix}
     ARCHIVE DESTINATION lib
     LIBRARY DESTINATION lib
     RUNTIME DESTINATION bin

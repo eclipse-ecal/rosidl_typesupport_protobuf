@@ -145,6 +145,7 @@ set_target_properties(${rosidl_generate_interfaces_TARGET}${_target_suffix}
     PUBLIC
     "$<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}/rosidl_adapter_proto>"
     "$<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}/rosidl_generator_cpp>"
+    "$<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}/rosidl_generator_c>"
     "$<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}/rosidl_typesupport_protobuf_cpp>"
     "$<INSTALL_INTERFACE:include/${PROJECT_NAME}>"
   )
@@ -176,7 +177,8 @@ add_dependencies(
 # Make this library depend on target created by rosidl_generator_cpp
 add_dependencies(
   ${rosidl_generate_interfaces_TARGET}${_target_suffix}
-  ${rosidl_generate_interfaces_TARGET}__cpp
+  ${rosidl_generate_interfaces_TARGET}__rosidl_generator_c
+  ${rosidl_generate_interfaces_TARGET}__rosidl_generator_cpp
 )
 
 if(NOT rosidl_generate_interfaces_SKIP_INSTALL)
