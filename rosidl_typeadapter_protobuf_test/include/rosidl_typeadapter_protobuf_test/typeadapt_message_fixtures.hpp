@@ -1,5 +1,19 @@
-#ifndef TYPEADAPT_MSGS__MESSAGE_FIXTURES_HPP_
-#define TYPEADAPT_MSGS__MESSAGE_FIXTURES_HPP_
+// Copyright 2015 Open Source Robotics Foundation, Inc.
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+#ifndef ROSIDL_TYPEADAPTER_PROTOBUF_TEST__TYPEADAPT_MESSAGE_FIXTURES_HPP_
+#define ROSIDL_TYPEADAPTER_PROTOBUF_TEST__TYPEADAPT_MESSAGE_FIXTURES_HPP_
 
 #include <cassert>
 #include <limits>
@@ -191,7 +205,7 @@ get_proto_messages_strings()
     msg->set_string_value("");
     msg->set_bounded_string_value("");
     for (size_t i = 0; i < 20000; ++i) {
-      msg->set_string_value( msg->string_value() + std::to_string(i % 10));
+      msg->set_string_value(msg->string_value() + std::to_string(i % 10));
     }
     for (size_t i = 0; i < 22; ++i) {
       msg->set_bounded_string_value(msg->bounded_string_value() + std::to_string(i % 10));
@@ -208,11 +222,11 @@ get_proto_messages_arrays()
   std::vector<ArraysSharedPtr> messages;
   {
     auto msg = std::make_shared<test_msgs::msg::pb::Arrays>();
-   
+
     msg->add_bool_values(false);
     msg->add_bool_values(true);
     msg->add_bool_values(false);
-   
+
     std::string values("000");
     values[0] = 0;
     values[1] = 255;
@@ -245,23 +259,23 @@ get_proto_messages_arrays()
     msg->add_int16_values(0);
     msg->add_int16_values(std::numeric_limits<int16_t>::max());
     msg->add_int16_values(std::numeric_limits<int16_t>::min());
-   
+
     msg->add_uint16_values(0);
     msg->add_uint16_values(std::numeric_limits<uint16_t>::max());
     msg->add_uint16_values(0);
- 
+
     msg->add_int32_values(static_cast<int32_t>(0));
     msg->add_int32_values(std::numeric_limits<int32_t>::max());
     msg->add_int32_values(std::numeric_limits<int32_t>::min());
 
-    msg->add_uint32_values(0); 
+    msg->add_uint32_values(0);
     msg->add_uint32_values(std::numeric_limits<uint32_t>::max());
     msg->add_uint32_values(0);
-  
+
     msg->add_int64_values(0);
     msg->add_int64_values(std::numeric_limits<int64_t>::max());
     msg->add_int64_values(std::numeric_limits<int64_t>::min());
-  
+
     msg->add_uint64_values(0);
     msg->add_uint64_values(std::numeric_limits<uint64_t>::max());
     msg->add_uint64_values(0);
@@ -269,16 +283,12 @@ get_proto_messages_arrays()
     msg->add_string_values("");
     msg->add_string_values("max value");
     msg->add_string_values("min value");
-  
+
     msg->add_basic_types_values()->CopyFrom(*basic_types_msgs[0]);
     msg->add_basic_types_values()->CopyFrom(*basic_types_msgs[1]);
     msg->add_basic_types_values()->CopyFrom(*basic_types_msgs[2]);
-    
-    
-    
+
     messages.push_back(msg);
-
-
   }
   return messages;
 }
@@ -292,11 +302,11 @@ get_proto_messages_unbounded_sequences()
     auto msg = std::make_shared<test_msgs::msg::pb::UnboundedSequences>();
     msg->add_bool_values(true);
     msg->set_byte_values(std::string(1, 0xff));
-    msg->set_char_values(std::string(1,255));
+    msg->set_char_values(std::string(1, 255));
     msg->add_float32_values(1.125f);
     msg->add_float64_values(1.125);
-    msg->set_int8_values(std::string(1,std::numeric_limits<int8_t>::max()));
-    msg->set_uint8_values(std::string(1,std::numeric_limits<uint8_t>::max()));
+    msg->set_int8_values(std::string(1, std::numeric_limits<int8_t>::max()));
+    msg->set_uint8_values(std::string(1, std::numeric_limits<uint8_t>::max()));
     msg->add_int16_values(std::numeric_limits<int16_t>::max());
     msg->add_uint16_values(std::numeric_limits<uint16_t>::max());
     msg->add_int32_values(std::numeric_limits<int32_t>::max());
@@ -351,7 +361,7 @@ get_proto_messages_unbounded_sequences()
     msg->add_int32_values(std::numeric_limits<int32_t>::max());
     msg->add_int32_values(std::numeric_limits<int32_t>::min());
 
-    msg->add_uint32_values(0); 
+    msg->add_uint32_values(0);
     msg->add_uint32_values(std::numeric_limits<uint32_t>::max());
 
     msg->add_int64_values(0);
@@ -460,7 +470,7 @@ get_proto_messages_bounded_plain_sequences()
     values[2] = std::numeric_limits<uint8_t>::min();
     msg->set_uint8_values(values);
 
-    msg->add_int16_values(0); 
+    msg->add_int16_values(0);
     msg->add_int16_values(std::numeric_limits<int16_t>::max());
     msg->add_int16_values(std::numeric_limits<int16_t>::min());
 
@@ -485,7 +495,7 @@ get_proto_messages_bounded_plain_sequences()
     msg->add_uint64_values(1);
     msg->add_uint64_values(std::numeric_limits<uint64_t>::max());
 
-    msg->add_basic_types_values()->CopyFrom (*basic_types_msgs[0]);
+    msg->add_basic_types_values()->CopyFrom(*basic_types_msgs[0]);
     msg->add_basic_types_values()->CopyFrom(*basic_types_msgs[1]);
     msg->add_basic_types_values()->CopyFrom(*basic_types_msgs[2]);
     msg->set_alignment_check(2);
@@ -506,7 +516,7 @@ get_proto_messages_bounded_sequences()
   auto basic_types_msgs = get_proto_messages_basic_types();
   auto msg = std::make_shared<test_msgs::msg::pb::UnboundedSequences>();
   std::vector<BoundedSequencesSharedPtr> messages;
-    {
+  {
     auto msg = std::make_shared<test_msgs::msg::pb::BoundedSequences>();
     msg->add_bool_values(false);
     msg->add_bool_values(true);
@@ -541,7 +551,7 @@ get_proto_messages_bounded_sequences()
     values[2] = std::numeric_limits<uint8_t>::min();
     msg->set_uint8_values(values);
 
-    msg->add_int16_values(0); 
+    msg->add_int16_values(0);
     msg->add_int16_values(std::numeric_limits<int16_t>::max());
     msg->add_int16_values(std::numeric_limits<int16_t>::min());
 
@@ -566,7 +576,7 @@ get_proto_messages_bounded_sequences()
     msg->add_uint64_values(1);
     msg->add_uint64_values(std::numeric_limits<uint64_t>::max());
 
-    msg->add_basic_types_values()->CopyFrom (*basic_types_msgs[0]);
+    msg->add_basic_types_values()->CopyFrom(*basic_types_msgs[0]);
     msg->add_basic_types_values()->CopyFrom(*basic_types_msgs[1]);
     msg->add_basic_types_values()->CopyFrom(*basic_types_msgs[2]);
     msg->set_alignment_check(2);
@@ -597,36 +607,32 @@ get_proto_messages_multi_nested()
       msg->mutable_array_of_arrays(i)->CopyFrom(*arrays_msgs[i % num_arrays]);
     }
     for (std::size_t i = 0u; i < msg->array_of_bounded_sequences_size(); ++i) {
-      msg->mutable_array_of_bounded_sequences(i)->CopyFrom(*bounded_sequences_msgs[i % num_bounded_sequences]);
+      msg->mutable_array_of_bounded_sequences(i)->CopyFrom(
+        *bounded_sequences_msgs[i % num_bounded_sequences]);
     }
     for (std::size_t i = 0u; i < msg->array_of_unbounded_sequences_size(); ++i) {
-      msg->mutable_array_of_unbounded_sequences(i)->CopyFrom(*unbounded_sequences_msgs[i % num_unbounded_sequences]);
+      msg->mutable_array_of_unbounded_sequences(i)->CopyFrom(
+        *unbounded_sequences_msgs[i % num_unbounded_sequences]);
     }
     const std::size_t sequence_size = 3u;
-    // msg->set_bounded_sequence_of_arrays.resize(sequence_size);
     for (std::size_t i = 0u; i < sequence_size; ++i) {
       msg->add_bounded_sequence_of_arrays()->CopyFrom(*arrays_msgs[i % num_arrays]);
     }
-    // msg->set_bounded_sequence_of_bounded_sequences.resize(sequence_size);
     for (std::size_t i = 0u; i < sequence_size; ++i) {
-      msg->add_bounded_sequence_of_bounded_sequences()->CopyFrom( 
+      msg->add_bounded_sequence_of_bounded_sequences()->CopyFrom(
         *bounded_sequences_msgs[i % num_bounded_sequences]);
     }
-    // msg->set_bounded_sequence_of_unbounded_sequences.resize(sequence_size);
     for (std::size_t i = 0u; i < sequence_size; ++i) {
       msg->add_bounded_sequence_of_unbounded_sequences()->CopyFrom(
         *unbounded_sequences_msgs[i % num_unbounded_sequences]);
     }
-    // msg->set_unbounded_sequence_of_arrays.resize(sequence_size);
     for (std::size_t i = 0u; i < sequence_size; ++i) {
       msg->add_unbounded_sequence_of_arrays()->CopyFrom(*arrays_msgs[i % num_arrays]);
     }
-    // msg->set_unbounded_sequence_of_bounded_sequences.resize(sequence_size);
     for (std::size_t i = 0u; i < sequence_size; ++i) {
       msg->add_unbounded_sequence_of_bounded_sequences()->CopyFrom(
         *bounded_sequences_msgs[i % num_bounded_sequences]);
     }
-    // msg->set_unbounded_sequence_of_unbounded_sequences.resize(sequence_size);
     for (std::size_t i = 0u; i < sequence_size; ++i) {
       msg->add_unbounded_sequence_of_unbounded_sequences()->CopyFrom(
         *unbounded_sequences_msgs[i % num_unbounded_sequences]);
@@ -641,10 +647,10 @@ get_proto_messages_nested()
 {
   std::vector<NestedSharedPtr> messages;
   auto basic_types_msgs = get_proto_messages_basic_types();
-  for (auto basic_types_msg : basic_types_msgs) { 
+  for (auto basic_types_msg : basic_types_msgs) {
     auto msg = std::make_shared<test_msgs::msg::pb::Nested>();
     msg->mutable_basic_types_value()->CopyFrom(*basic_types_msg);
-    messages.push_back(msg);  
+    messages.push_back(msg);
   }
   return messages;
 }
@@ -697,9 +703,9 @@ get_proto_messages_wstrings()
   // {
   //   auto msg = std::make_shared<test_msgs::msg::pb::WStrings>();
   //   msg->set_wstring_value(u"ハローワールド";  // "Hello world" in Japanese
-  //   messages.push_back(msg);
+  messages.push_back(msg);
   // }
   return messages;
 }
 
-#endif  // TYPEADAPT_MSGS__MESSAGE_FIXTURES_HPP_
+#endif  // ROSIDL_TYPEADAPTER_PROTOBUF_TEST__TYPEADAPT_MESSAGE_FIXTURES_HPP_

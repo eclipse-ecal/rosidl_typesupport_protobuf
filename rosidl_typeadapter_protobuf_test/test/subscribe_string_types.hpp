@@ -17,13 +17,13 @@
 
 #include <string>
 #include <vector>
+#include <memory>
 
 #include "rclcpp/rclcpp.hpp"
 #include "test_msgs/rosidl_adapter_proto__visibility_control.h"
 #include "builtin_interfaces/rosidl_adapter_proto__visibility_control.h"
 #include "test_msgs/msg/Strings.pb.h"
 #include "test_msgs/msg/WStrings.pb.h"
-
 
 
 rclcpp::SubscriptionBase::SharedPtr subscribe_strings(

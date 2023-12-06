@@ -12,59 +12,57 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef SUBSCRIBE_BASIC_TYPES_HPP_
-#define SUBSCRIBE_BASIC_TYPES_HPP_
+#ifndef SUBSCRIBE_ARRAY_TYPES_HPP_
+#define SUBSCRIBE_ARRAY_TYPES_HPP_
 
 #include <string>
 #include <vector>
+#include <memory>
 
 #include "rclcpp/rclcpp.hpp"
 #include "test_msgs/rosidl_adapter_proto__visibility_control.h"
 #include "builtin_interfaces/rosidl_adapter_proto__visibility_control.h"
 #include "test_msgs/msg/Arrays.pb.h"
-#include "test_msgs/msg/BasicTypes.pb.h"
+#include "test_msgs/msg/UnboundedSequences.pb.h"
 #include "test_msgs/msg/BoundedPlainSequences.pb.h"
 #include "test_msgs/msg/BoundedSequences.pb.h"
-#include "test_msgs/msg/Builtins.pb.h"
-#include "test_msgs/msg/Constants.pb.h"
-#include "test_msgs/msg/Defaults.pb.h"
-#include "test_msgs/msg/Empty.pb.h"
 #include "test_msgs/msg/MultiNested.pb.h"
 #include "test_msgs/msg/Nested.pb.h"
-#include "test_msgs/msg/Strings.pb.h"
-#include "test_msgs/msg/UnboundedSequences.pb.h"
-#include "test_msgs/msg/WStrings.pb.h"
 
-
-
-rclcpp::SubscriptionBase::SharedPtr subscribe_empty(
+rclcpp::SubscriptionBase::SharedPtr subscribe_arrays(
   rclcpp::Node::SharedPtr node,
   const std::string & message_type,
-  const std::vector<std::shared_ptr<test_msgs::msg::pb::Empty>> & messages_expected,
+  const std::vector<std::shared_ptr<test_msgs::msg::pb::Arrays>> & expected_messages,
   std::vector<bool> & received_messages);
 
-rclcpp::SubscriptionBase::SharedPtr subscribe_basic_types(
+rclcpp::SubscriptionBase::SharedPtr subscribe_unbounded_sequences(
   rclcpp::Node::SharedPtr node,
   const std::string & message_type,
-  const std::vector<std::shared_ptr<test_msgs::msg::pb::BasicTypes>> & messages_expected,
+  const std::vector<std::shared_ptr<test_msgs::msg::pb::UnboundedSequences>> & expected_messages,
   std::vector<bool> & received_messages);
 
-rclcpp::SubscriptionBase::SharedPtr subscribe_builtins(
+rclcpp::SubscriptionBase::SharedPtr subscribe_bounded_plain_sequences(
   rclcpp::Node::SharedPtr node,
   const std::string & message_type,
-  const std::vector<std::shared_ptr<test_msgs::msg::pb::Builtins>> & messages_expected,
+  const std::vector<std::shared_ptr<test_msgs::msg::pb::BoundedPlainSequences>> & expected_messages,
   std::vector<bool> & received_messages);
 
-rclcpp::SubscriptionBase::SharedPtr subscribe_constants(
+rclcpp::SubscriptionBase::SharedPtr subscribe_bounded_sequences(
   rclcpp::Node::SharedPtr node,
   const std::string & message_type,
-  const std::vector<std::shared_ptr<test_msgs::msg::pb::Constants>> & messages_expected,
+  const std::vector<std::shared_ptr<test_msgs::msg::pb::BoundedSequences>> & expected_messages,
   std::vector<bool> & received_messages);
 
-rclcpp::SubscriptionBase::SharedPtr subscribe_defaults(
+rclcpp::SubscriptionBase::SharedPtr subscribe_multi_nested(
   rclcpp::Node::SharedPtr node,
   const std::string & message_type,
-  const std::vector<std::shared_ptr<test_msgs::msg::pb::Defaults>> & messages_expected,
+  const std::vector<std::shared_ptr<test_msgs::msg::pb::MultiNested>> & expected_messages,
   std::vector<bool> & received_messages);
 
-#endif  // SUBSCRIBE_BASIC_TYPES_HPP_
+rclcpp::SubscriptionBase::SharedPtr subscribe_nested(
+  rclcpp::Node::SharedPtr node,
+  const std::string & message_type,
+  const std::vector<std::shared_ptr<test_msgs::msg::pb::Nested>> & expected_messages,
+  std::vector<bool> & received_messages);
+
+#endif  // SUBSCRIBE_ARRAY_TYPES_HPP_

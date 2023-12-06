@@ -15,20 +15,22 @@
 #ifndef SUBSCRIBE_HELPER_HPP_
 #define SUBSCRIBE_HELPER_HPP_
 
+#include <google/protobuf/util/message_differencer.h>
+
 #include <cstdio>
+#include <memory>
 #include <stdexcept>
 #include <string>
 #include <vector>
 
-#include <google/protobuf/util/message_differencer.h>
 #include "rclcpp/rclcpp.hpp"
-
 
 template<typename T>
 rclcpp::SubscriptionBase::SharedPtr subscribe(
   rclcpp::Node::SharedPtr node,
   const std::string & message_type,
-  const std::vector<typename std::shared_ptr<typename rclcpp::TypeAdapter<T>::custom_type>> & expected_messages,
+  const std::vector<typename std::shared_ptr<typename rclcpp::TypeAdapter<T>::custom_type>>
+  & expected_messages,
   std::vector<bool> & received_messages)
 {
   received_messages.assign(expected_messages.size(), false);
@@ -39,7 +41,8 @@ rclcpp::SubscriptionBase::SharedPtr subscribe(
     ) -> void
     {
       google::protobuf::util::MessageDifferencer mdiff;
-      mdiff.set_message_field_comparison(google::protobuf::util::MessageDifferencer::MessageFieldComparison::EQUAL);
+      mdiff.set_message_field_comparison(
+        google::protobuf::util::MessageDifferencer::MessageFieldComparison::EQUAL);
       mdiff.set_scope(google::protobuf::util::MessageDifferencer::Scope::PARTIAL);
 
       // find received message in vector of expected messages
@@ -47,20 +50,18 @@ rclcpp::SubscriptionBase::SharedPtr subscribe(
       bool known_message = false;
       size_t index = 0;
       for (auto expected_message : expected_messages) {
-
         std::cout << "RECEIVED MESSAGE: " << received_message->ByteSize() << std::endl;
         std::cout << received_message->DebugString() << std::endl;
 
         std::cout << "EXPECTED MESSAGE:" << expected_message->ByteSize() << std::endl;
         std::cout << expected_message->DebugString() << std::endl;
 
-
-        if( !expected_message->ByteSize()) {
-          if( !received_message->ByteSize() ){
-          *received = true;
-          printf("received message #%zu of %zu\n", index + 1, expected_messages.size());
-          known_message = true;
-          break;
+        if (!expected_message->ByteSize()) {
+          if (!received_message->ByteSize() ) {
+            *received = true;
+            printf("received message #%zu of %zu\n", index + 1, expected_messages.size());
+            known_message = true;
+            break;
           }
         } else if (mdiff.Compare(*expected_message, *received_message)) {
           *received = true;

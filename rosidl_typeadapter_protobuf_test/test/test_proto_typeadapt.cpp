@@ -22,7 +22,7 @@
 #include "rcpputils/scope_exit.hpp"
 
 #include "test_msgs/message_fixtures.hpp"
-#include "proto_test/typeadapt_message_fixtures.hpp"
+#include "rosidl_typeadapter_protobuf_test/typeadapt_message_fixtures.hpp"
 
 #include "subscribe_array_types.hpp"
 #include "subscribe_basic_types.hpp"
@@ -37,7 +37,8 @@ void publish(
 {
   auto qos = rclcpp::QoS(rclcpp::KeepLast(messages.size()));
 
-  auto publisher = node->create_publisher<rclcpp::TypeAdapter<T>>(std::string("test/message/") + message_type, qos);
+  auto publisher = node->create_publisher<rclcpp::TypeAdapter<T>>(
+    std::string("test/message/") + message_type, qos);
 
   try {
     rclcpp::WallRate cycle_rate(10);
@@ -107,13 +108,16 @@ int main(int argc, char ** argv)
 
   if (message == "Empty") {
     subscriber = subscribe_empty(node, message, messages_empty, received_messages);
-    publish<test_msgs::msg::typesupport_protobuf_cpp::EmptyTypeAdapter>(node, message, messages_empty);
+    publish<test_msgs::msg::typesupport_protobuf_cpp::EmptyTypeAdapter>(
+      node, message, messages_empty);
   } else if (message == "BasicTypes") {
     subscriber = subscribe_basic_types(node, message, messages_basic_types, received_messages);
-    publish<test_msgs::msg::typesupport_protobuf_cpp::BasicTypesTypeAdapter>(node, message, messages_basic_types);
+    publish<test_msgs::msg::typesupport_protobuf_cpp::BasicTypesTypeAdapter>(
+      node, message, messages_basic_types);
   } else if (message == "Arrays") {
     subscriber = subscribe_arrays(node, message, messages_arrays, received_messages);
-    publish<test_msgs::msg::typesupport_protobuf_cpp::ArraysTypeAdapter>(node, message, messages_arrays);
+    publish<test_msgs::msg::typesupport_protobuf_cpp::ArraysTypeAdapter>(
+      node, message, messages_arrays);
   } else if (message == "UnboundedSequences") {
     subscriber = subscribe_unbounded_sequences(
       node, message, messages_unbounded_sequences, received_messages);
@@ -129,27 +133,34 @@ int main(int argc, char ** argv)
       node, message, messages_bounded_sequences, received_messages);
     publish<test_msgs::msg::typesupport_protobuf_cpp::BoundedSequencesTypeAdapter>(
       node, message, messages_bounded_sequences);
-    } else if (message == "MultiNested") {
-      subscriber = subscribe_multi_nested(node, message, messages_multi_nested, received_messages);
-      publish<test_msgs::msg::typesupport_protobuf_cpp::MultiNestedTypeAdapter>(node, message, messages_multi_nested);
-    } else if (message == "Nested") {
-      subscriber = subscribe_nested(node, message, messages_nested, received_messages);
-      publish<test_msgs::msg::typesupport_protobuf_cpp::NestedTypeAdapter>(node, message, messages_nested);
-    } else if (message == "Builtins") {
-      subscriber = subscribe_builtins(node, message, messages_builtins, received_messages);
-      publish<test_msgs::msg::typesupport_protobuf_cpp::BuiltinsTypeAdapter>(node, message, messages_builtins);
-    } else if (message == "Constants") {
-      subscriber = subscribe_constants(node, message, messages_constants, received_messages);
-      publish<test_msgs::msg::typesupport_protobuf_cpp::ConstantsTypeAdapter>(node, message, messages_constants);
-    } else if (message == "Defaults") {
-      subscriber = subscribe_defaults(node, message, messages_defaults, received_messages);
-      publish<test_msgs::msg::typesupport_protobuf_cpp::DefaultsTypeAdapter>(node, message, messages_defaults);
-    } else if (message == "Strings") {
-      subscriber = subscribe_strings(node, message, messages_strings, received_messages);
-      publish<test_msgs::msg::typesupport_protobuf_cpp::StringsTypeAdapter>(node, message, messages_strings);
-    } else if (message == "WStrings") {
-      subscriber = subscribe_wstrings(node, message, messages_wstrings, received_messages);
-      publish<test_msgs::msg::typesupport_protobuf_cpp::WStringsTypeAdapter>(node, message, messages_wstrings);
+  } else if (message == "MultiNested") {
+    subscriber = subscribe_multi_nested(node, message, messages_multi_nested, received_messages);
+    publish<test_msgs::msg::typesupport_protobuf_cpp::MultiNestedTypeAdapter>(
+      node, message, messages_multi_nested);
+  } else if (message == "Nested") {
+    subscriber = subscribe_nested(node, message, messages_nested, received_messages);
+    publish<test_msgs::msg::typesupport_protobuf_cpp::NestedTypeAdapter>(
+      node, message, messages_nested);
+  } else if (message == "Builtins") {
+    subscriber = subscribe_builtins(node, message, messages_builtins, received_messages);
+    publish<test_msgs::msg::typesupport_protobuf_cpp::BuiltinsTypeAdapter>(
+      node, message, messages_builtins);
+  } else if (message == "Constants") {
+    subscriber = subscribe_constants(node, message, messages_constants, received_messages);
+    publish<test_msgs::msg::typesupport_protobuf_cpp::ConstantsTypeAdapter>(
+      node, message, messages_constants);
+  } else if (message == "Defaults") {
+    subscriber = subscribe_defaults(node, message, messages_defaults, received_messages);
+    publish<test_msgs::msg::typesupport_protobuf_cpp::DefaultsTypeAdapter>(
+      node, message, messages_defaults);
+  } else if (message == "Strings") {
+    subscriber = subscribe_strings(node, message, messages_strings, received_messages);
+    publish<test_msgs::msg::typesupport_protobuf_cpp::StringsTypeAdapter>(
+      node, message, messages_strings);
+  } else if (message == "WStrings") {
+    subscriber = subscribe_wstrings(node, message, messages_wstrings, received_messages);
+    publish<test_msgs::msg::typesupport_protobuf_cpp::WStringsTypeAdapter>(
+      node, message, messages_wstrings);
   } else {
     fprintf(stderr, "Unknown message argument '%s'\n", message.c_str());
     return 1;

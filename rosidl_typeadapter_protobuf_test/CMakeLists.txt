@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.5)
 
-project(proto_test)
+project(rosidl_typeadapter_protobuf_test)
 
 # Default to C++17
 if(NOT CMAKE_CXX_STANDARD)
@@ -34,7 +34,7 @@ if(BUILD_TESTING)
 
 
   include_directories(include)
-  
+
   ament_index_get_resource(interface_files "rosidl_interfaces" "test_msgs")
   string(REPLACE "\n" ";" interface_files "${interface_files}")
 
@@ -114,14 +114,14 @@ if(BUILD_TESTING)
       "test_msgs"
     )
   endfunction()
- 
+
   add_library(subscribe_types STATIC
-   "test/subscribe_array_types.cpp"
-   "test/subscribe_basic_types.cpp"
-   "test/subscribe_string_types.cpp")
+    "test/subscribe_array_types.cpp"
+    "test/subscribe_basic_types.cpp"
+    "test/subscribe_string_types.cpp")
   ament_target_dependencies(subscribe_types
-   "rclcpp"
-   "test_msgs")
+    "rclcpp"
+    "test_msgs")
 
   # publisher combined with a subscriber
   custom_executable(test_proto_typeadapt_cpp
