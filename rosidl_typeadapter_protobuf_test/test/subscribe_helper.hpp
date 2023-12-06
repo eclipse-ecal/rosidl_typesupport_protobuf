@@ -50,12 +50,6 @@ rclcpp::SubscriptionBase::SharedPtr subscribe(
       bool known_message = false;
       size_t index = 0;
       for (auto expected_message : expected_messages) {
-        std::cout << "RECEIVED MESSAGE: " << received_message->ByteSize() << std::endl;
-        std::cout << received_message->DebugString() << std::endl;
-
-        std::cout << "EXPECTED MESSAGE:" << expected_message->ByteSize() << std::endl;
-        std::cout << expected_message->DebugString() << std::endl;
-
         if (!expected_message->ByteSize()) {
           if (!received_message->ByteSize() ) {
             *received = true;

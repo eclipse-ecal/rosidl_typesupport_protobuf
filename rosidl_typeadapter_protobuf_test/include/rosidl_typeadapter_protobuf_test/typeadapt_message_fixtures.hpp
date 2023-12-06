@@ -676,7 +676,10 @@ get_proto_messages_wstrings()
   std::vector<WStringsSharedPtr> messages;
   {
     auto msg = std::make_shared<test_msgs::msg::pb::WStrings>();
-    // msg->set_wstring_value(u"");
+    msg->add_array_of_wstrings("");
+    msg->add_array_of_wstrings("");
+    msg->add_array_of_wstrings("");
+    // msg->set_wstring_value("");
     // msg->set_array_of_wstrings(0, u"1");
     // msg->set_array_of_wstrings[1] = u"two";
     // msg->set_array_of_wstrings[2] = u"三";  // "One" in Japanese
@@ -688,7 +691,7 @@ get_proto_messages_wstrings()
     // msg->set_unbounded_sequence_of_wstrings[1] = u"..";
     // msg->set_unbounded_sequence_of_wstrings[2] = u"...";
     // msg->set_unbounded_sequence_of_wstrings[3] = u"四";  // "Four" in Japanese
-    // messages.push_back(msg);
+    messages.push_back(msg);
   }
   // {
   //   auto msg = std::make_shared<test_msgs::msg::pb::WStrings>();
@@ -703,7 +706,7 @@ get_proto_messages_wstrings()
   // {
   //   auto msg = std::make_shared<test_msgs::msg::pb::WStrings>();
   //   msg->set_wstring_value(u"ハローワールド";  // "Hello world" in Japanese
-  messages.push_back(msg);
+  //    messages.push_back(msg);
   // }
   return messages;
 }
