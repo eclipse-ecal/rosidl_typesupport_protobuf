@@ -29,23 +29,23 @@ else()
     "${rosidl_adapter_proto_TEMPLATE_DIR}")
 
   include("${rosidl_adapter_proto_DIR}/rosidl_adapt_proto_interfaces.cmake")
-  
+
   add_compile_definitions("ROSIDL_ADAPTER_PROTO_BUILDING_DLL__${PROJECT_NAME}")
 
   # There is no clean way to include additional files into protobuf headers
   if(NOT WIN32)
     add_compile_options("-include${rosidl_adapter_proto_VISIBILITY_CONTROL_HEADER}")
   else()
-    add_compile_options( "/FI\"${rosidl_adapter_proto_VISIBILITY_CONTROL_HEADER}\"")
+    add_compile_options("/FI\"${rosidl_adapter_proto_VISIBILITY_CONTROL_HEADER}\"")
   endif()
-  
+
   foreach(_pkg_name ${rosidl_generate_interfaces_DEPENDENCY_PACKAGE_NAMES})
     set(_proto_dir "${${_pkg_name}_DIR}/../../../include/${_pkg_name}/${_pkg_name}/rosidl_adapter_proto__visibility_control.h")
     normalize_path(_proto_dir "${_proto_dir}")
     if(NOT WIN32)
       add_compile_options("-include${_proto_dir}")
     else()
-      add_compile_options( "/FI\"${_proto_dir}\"")
+      add_compile_options("/FI\"${_proto_dir}\"")
     endif()
   endforeach()
 

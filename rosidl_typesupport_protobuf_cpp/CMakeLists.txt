@@ -35,9 +35,9 @@ if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
   add_compile_options(-Wall -Wextra -Wpedantic)
 endif()
 
-if (CMAKE_CXX_COMPILER_ID MATCHES "MSVC")
-	add_compile_options(/W4)
-	add_compile_definitions(_CRT_SECURE_NO_WARNINGS)
+if(CMAKE_CXX_COMPILER_ID MATCHES "MSVC")
+  add_compile_options(/W4)
+  add_compile_definitions(_CRT_SECURE_NO_WARNINGS)
 endif()
 
 find_package(ament_cmake REQUIRED)
