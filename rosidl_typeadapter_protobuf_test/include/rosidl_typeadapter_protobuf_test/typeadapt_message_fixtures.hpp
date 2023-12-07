@@ -38,25 +38,25 @@
 #include "test_msgs/msg/unbounded_sequences__typeadapter_protobuf_cpp.hpp"
 #include "test_msgs/msg/w_strings__typeadapter_protobuf_cpp.hpp"
 
-// static inline std::string
-// from_u8string(const std::string & s)
-// {
-//   return s;
-// }
+static inline std::string
+get_from_u8string(const std::string & s)
+{
+  return s;
+}
 
-// static inline std::string
-// from_u8string(std::string && s)
-// {
-//   return std::move(s);
-// }
+static inline std::string
+get_from_u8string(std::string && s)
+{
+  return std::move(s);
+}
 
-// #if defined(__cpp_lib_char8_t)
-// static inline std::string
-// from_u8string(const std::u8string & s)
-// {
-//   return std::string(s.begin(), s.end());
-// }
-// #endif
+#if defined(__cpp_lib_char8_t)
+static inline std::string
+get_from_u8string(const std::u8string & s)
+{
+  return std::string(s.begin(), s.end());
+}
+#endif
 
 typedef std::shared_ptr<test_msgs::msg::pb::Empty> EmptySharedPtr;
 typedef std::shared_ptr<test_msgs::msg::pb::BasicTypes> BasicTypesSharedPtr;
@@ -196,8 +196,8 @@ get_proto_messages_strings()
   }
   {
     auto msg = std::make_shared<test_msgs::msg::pb::Strings>();
-    msg->set_string_value(from_u8string(u8"Hell\u00F6 W\u00F6rld!"));  // using umlaut
-    msg->set_bounded_string_value(from_u8string(u8"Hell\u00F6 W\u00F6rld!"));  // using umlaut
+    msg->set_string_value(get_from_u8string(u8"Hell\u00F6 W\u00F6rld!"));  // using umlaut
+    msg->set_bounded_string_value(get_from_u8string(u8"Hell\u00F6 W\u00F6rld!"));  // using umlaut
     messages.push_back(msg);
   }
   {
