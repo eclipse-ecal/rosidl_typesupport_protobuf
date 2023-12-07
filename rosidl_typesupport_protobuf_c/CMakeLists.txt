@@ -41,9 +41,9 @@ if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
   add_compile_options(-Wall -Wextra -Wpedantic)
 endif()
 
-if (CMAKE_CXX_COMPILER_ID MATCHES "MSVC")
-	add_compile_options(/W4)
-	add_compile_definitions(_CRT_SECURE_NO_WARNINGS)
+if(CMAKE_CXX_COMPILER_ID MATCHES "MSVC")
+  add_compile_options(/W4)
+  add_compile_definitions(_CRT_SECURE_NO_WARNINGS)
 endif()
 
 find_package(ament_cmake REQUIRED)
@@ -103,6 +103,11 @@ ament_export_targets(${PROJECT_NAME})
 ament_target_dependencies(${PROJECT_NAME} rosidl_typesupport_protobuf)
 
 ament_index_register_resource("rosidl_typesupport_c")
+
+if(BUILD_TESTING)
+  find_package(ament_lint_auto REQUIRED)
+  ament_lint_auto_find_test_dependencies()
+endif()
 
 ament_package(
   CONFIG_EXTRAS "cmake/rosidl_typesupport_protobuf_c-extras.cmake.in"

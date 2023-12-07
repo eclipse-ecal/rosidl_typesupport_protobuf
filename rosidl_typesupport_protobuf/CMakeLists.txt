@@ -28,6 +28,11 @@ ament_export_include_directories("include/${PROJECT_NAME}")
 
 ament_python_install_package(${PROJECT_NAME})
 
+if(BUILD_TESTING)
+  find_package(ament_lint_auto REQUIRED)
+  ament_lint_auto_find_test_dependencies()
+endif()
+
 install(
   DIRECTORY include/
   DESTINATION include/${PROJECT_NAME}
