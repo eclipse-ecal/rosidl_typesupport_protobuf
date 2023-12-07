@@ -85,7 +85,9 @@ if(WIN32)
     PRIVATE "ROSIDL_TYPESUPPORT_PROTOBUF_C_BUILDING_DLL")
 endif()
 
-# TODO(tfoote) This needs cpp to build due to https://github.com/tfoote/rosidl_typesupport_protobuf/blob/132668ae385163ee8b45ce45a9022654e5c77666/rosidl_typesupport_protobuf_c/resource/msg__rosidl_typesupport_protobuf_c.hpp.em#L30
+# TODO(tfoote) This needs cpp to build due to
+# https://github.com/tfoote/rosidl_typesupport_protobuf/blob/132668ae385163ee8b45ce45a9022654e5c77666/
+# rosidl_typesupport_protobuf_c/resource/msg__rosidl_typesupport_protobuf_c.hpp.em#L30
 # This looks like it might want to be cleaned up.
 ament_target_dependencies(${PROJECT_NAME} "rosidl_typesupport_protobuf" rosidl_runtime_c rosidl_runtime_cpp)
 
