@@ -15,25 +15,25 @@
 # limitations under the License.
 #
 # ================================= Apache 2.0 =================================
-from rosidl_cmake import generate_files
-
-import rosidl_parser.definition as rosidl
 
 import subprocess
 import zlib
 
+from rosidl_cmake import generate_files
+import rosidl_parser.definition as rosidl
+
 # A postfix for the protobuf package name / the c++ namespace
-PROTO_PACKAGE_POSTFIX = "pb"
+PROTO_PACKAGE_POSTFIX = 'pb'
 
 # The rpc-function name for service calls. As ros services can only offer a
 # single function, this function gets a static name in the protobuf service
-PROTO_SERVICE_CALL_NAME = "Call"
+PROTO_SERVICE_CALL_NAME = 'Call'
 
 # The rpc function name for sending an action goal
-PROTO_ACTION_SEND_GOAL_CALL_NAME = "SendGoal"
+PROTO_ACTION_SEND_GOAL_CALL_NAME = 'SendGoal'
 
 # The rpc function name for retrieving the action result
-PROTO_ACTION_GET_RESULT_CALL_NAME = "GetResult"
+PROTO_ACTION_GET_RESULT_CALL_NAME = 'GetResult'
 
 # A Mapping from IDL -> Protobuf type
 MSG_TYPE_TO_PROTO = {
@@ -58,25 +58,33 @@ MSG_TYPE_TO_PROTO = {
 
 field_val = 0
 
+
 def compute_proto_field_number(variable_name):
-    # Field number rules (https://developers.google.com/protocol-buffers/docs/proto#assigning_field_numbers)
+    # Field number rules (https://developers.google.com/protocol-buffers/docs/
+    # proto#assigning_field_numbers)
     #
     # Smallest: 1
     # Largest:  536870911 (= 2^29 - 1)
     #
     # Reserved Range: 19000 to 19999 (=> 1000 values)
 
-    field_number = zlib.crc32(bytearray(variable_name, 'utf8')) # Create a 32 bit hash from the variable name
-    field_number = (field_number % (536870911 - 1000))          # Reduce to the correct amount of values
-    field_number += 1                                           # Account for the fact that we must not use 0
+    # Create a 32 bit hash from the variable name
+    field_number = zlib.crc32(bytearray(variable_name, 'utf8'))
+    # Reduce to the correct amount of values
+    field_number = (field_number % (536870911 - 1000))
+    # Account for the fact that we must not use 0
+    field_number += 1
+    # Account for the fact that we must not use 19000 to 19999
     if field_number >= 19000:
-        field_number += 1000                                    # Account for the fact that we must not use 19000 to 19999
-    
+        field_number += 1000
+
     return field_number
+
 
 def to_proto_import(namespaced_type):
     assert isinstance(namespaced_type, rosidl.NamespacedType)
-    return "/".join(namespaced_type.namespaces + [namespaced_type.name]) + ".proto"
+    return '/'.join(namespaced_type.namespaces + [namespaced_type.name]) + '.proto'
+
 
 def collect_proto_imports(rosidl_message):
     assert isinstance(rosidl_message, rosidl.Message)
@@ -90,10 +98,11 @@ def collect_proto_imports(rosidl_message):
             namespaced_type = member.type.value_type
         else:
             continue
-    
+
         import_set.add(to_proto_import(namespaced_type))
 
     return import_set
+
 
 def generate_proto(generator_arguments_file):
     mapping = {
@@ -102,13 +111,15 @@ def generate_proto(generator_arguments_file):
     generate_files(generator_arguments_file, mapping, keep_case=True)
     return 0
 
+
 def compile_proto(protoc_path, proto_path_list, cpp_out_dir, proto_files, package_name):
     protoc_cmd = [protoc_path]
 
     for path in proto_path_list:
-        protoc_cmd.append("--proto_path=" + path)
-    
-    protoc_cmd.append(f"--cpp_out=dllexport_decl=ROSIDL_ADAPTER_PROTO_PUBLIC__{package_name}:{cpp_out_dir}")
+        protoc_cmd.append('--proto_path=' + path)
+
+    protoc_cmd.append(
+        f'--cpp_out=dllexport_decl=ROSIDL_ADAPTER_PROTO_PUBLIC__{package_name}:{cpp_out_dir}')
     protoc_cmd = protoc_cmd + proto_files
 
     subprocess.check_call(protoc_cmd)

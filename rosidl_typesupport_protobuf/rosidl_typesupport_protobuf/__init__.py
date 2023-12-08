@@ -16,114 +16,134 @@
 #
 # ================================= Apache 2.0 =================================
 
-import os
-
 from rosidl_cmake import convert_camel_case_to_lower_case_underscore
-from rosidl_parser import definition
 
 # A postfix for the protobuf package name / the c++ namespace
-PROTO_PACKAGE_POSTFIX = "pb"
+PROTO_PACKAGE_POSTFIX = 'pb'
 
-_TYPE_SUPPORT_NAME = ""
-_NAMESPACE_DELIMETER = ""
+_TYPE_SUPPORT_NAME = ''
+_NAMESPACE_DELIMETER = ''
+
 
 def set_type_support_name(val):
-  global _TYPE_SUPPORT_NAME
-  _TYPE_SUPPORT_NAME = val
+    global _TYPE_SUPPORT_NAME
+    _TYPE_SUPPORT_NAME = val
+
 
 def set_namespace_delimeter(val):
-  global _NAMESPACE_DELIMETER
-  _NAMESPACE_DELIMETER = val
+    global _NAMESPACE_DELIMETER
+    _NAMESPACE_DELIMETER = val
+
 
 def typesupport_message_header(package_name, interface_path):
-  include_parts = [package_name] + list(interface_path.parents[0].parts)
-  include_parts += [convert_camel_case_to_lower_case_underscore(interface_path.stem)]
-  include_base = '/'.join(include_parts)
+    include_parts = [package_name] + list(interface_path.parents[0].parts)
+    include_parts += [convert_camel_case_to_lower_case_underscore(interface_path.stem)]
+    include_base = '/'.join(include_parts)
 
-  return f"{include_base}__rosidl_typesupport_protobuf_cpp.hpp"
+    return f'{include_base}__rosidl_typesupport_protobuf_cpp.hpp'
+
 
 def ros_message_header(package_name, interface_path):
-  include_parts = [package_name] + list(interface_path.parents[0].parts)
-  include_parts += ["detail"] 
-  include_parts += [convert_camel_case_to_lower_case_underscore(interface_path.stem)]
-  include_base = '/'.join(include_parts)
+    include_parts = [package_name] + list(interface_path.parents[0].parts)
+    include_parts += ['detail']
+    include_parts += [convert_camel_case_to_lower_case_underscore(interface_path.stem)]
+    include_base = '/'.join(include_parts)
 
-  return f"{include_base}__struct.hpp"
+    return f'{include_base}__struct.hpp'
+
 
 def ros_message_header_c(package_name, interface_path):
-  include_parts = [package_name] + list(interface_path.parents[0].parts)
-  include_parts += ["detail"]
-  include_parts += [convert_camel_case_to_lower_case_underscore(interface_path.stem)]
-  include_base = '/'.join(include_parts)
+    include_parts = [package_name] + list(interface_path.parents[0].parts)
+    include_parts += ['detail']
+    include_parts += [convert_camel_case_to_lower_case_underscore(interface_path.stem)]
+    include_base = '/'.join(include_parts)
 
-  return f"{include_base}__struct.h"
+    return f'{include_base}__struct.h'
+
 
 def ros_message_functions_header_c(package_name, interface_path):
-  include_parts = [package_name] + list(interface_path.parents[0].parts)
-  include_parts += ["detail"]
-  include_parts += [convert_camel_case_to_lower_case_underscore(interface_path.stem)]
-  include_base = '/'.join(include_parts)
+    include_parts = [package_name] + list(interface_path.parents[0].parts)
+    include_parts += ['detail']
+    include_parts += [convert_camel_case_to_lower_case_underscore(interface_path.stem)]
+    include_base = '/'.join(include_parts)
 
-  return f"{include_base}__functions.h"
+    return f'{include_base}__functions.h'
+
 
 def ros_message_functions_header_c_from_namespace(namespace, name):
-  include_parts = list(namespace)
-  include_parts += ["detail"]
-  include_parts += [convert_camel_case_to_lower_case_underscore(name)]
-  include_base = '/'.join(include_parts)
+    include_parts = list(namespace)
+    include_parts += ['detail']
+    include_parts += [convert_camel_case_to_lower_case_underscore(name)]
+    include_base = '/'.join(include_parts)
 
-  return f"{include_base}__functions.h"
+    return f'{include_base}__functions.h'
+
 
 def protobuf_message_header(package_name, interface_path):
-  include_parts = [package_name] + list(interface_path.parents[0].parts)
-  include_base = '/'.join(include_parts)
-  include_prefix = interface_path.stem
+    include_parts = [package_name] + list(interface_path.parents[0].parts)
+    include_prefix = interface_path.stem
 
-  return '/'.join(include_parts + [include_prefix + ".pb.h"])
+    return '/'.join(include_parts + [include_prefix + '.pb.h'])
+
 
 def typesupport_header(package_name, interface_path):
-  include_parts = [package_name] + list(interface_path.parents[0].parts) + [convert_camel_case_to_lower_case_underscore(interface_path.stem)]
-  include_base = '/'.join(include_parts)
-  
-  return f"{include_base}__{_TYPE_SUPPORT_NAME}.hpp"
+    include_parts = [package_name] + list(interface_path.parents[0].parts) + \
+        [convert_camel_case_to_lower_case_underscore(interface_path.stem)]
+    include_base = '/'.join(include_parts)
+
+    return f'{include_base}__{_TYPE_SUPPORT_NAME}.hpp'
+
 
 def visibility_control_header(package_name):
-  return f"{package_name}/{_TYPE_SUPPORT_NAME}__visibility_control.h"
+    return f'{package_name}/{_TYPE_SUPPORT_NAME}__visibility_control.h'
+
 
 def ros_type_namespace(package_name, interface_path):
-  return _NAMESPACE_DELIMETER.join([package_name] + list(interface_path.parents[0].parts))
+    return _NAMESPACE_DELIMETER.join([package_name] + list(interface_path.parents[0].parts))
+
 
 def ros_type_name(message):
-  return message.structure.namespaced_type.name
+    return message.structure.namespaced_type.name
+
 
 def ros_type(package_name, interface_path, message):
-  ros_type_ns = ros_type_namespace(package_name, interface_path)
-  ros_type_nm = ros_type_name(message)
-  return "::" + _NAMESPACE_DELIMETER.join([ros_type_ns, ros_type_nm])
+    ros_type_ns = ros_type_namespace(package_name, interface_path)
+    ros_type_nm = ros_type_name(message)
+    return '::' + _NAMESPACE_DELIMETER.join([ros_type_ns, ros_type_nm])
+
 
 def ros_type_from_namespaced_type(namespaced_type):
-  return "::" + _NAMESPACE_DELIMETER.join(namespaced_type.namespaces + [namespaced_type.name])
+    return '::' + _NAMESPACE_DELIMETER.join(namespaced_type.namespaces + [namespaced_type.name])
+
 
 def ros_type_from_namespaced_type_c(namespaced_type):
-  return "::" + _NAMESPACE_DELIMETER.join(namespaced_type.namespaces + [namespaced_type.name])
+    return '::' + _NAMESPACE_DELIMETER.join(namespaced_type.namespaces + [namespaced_type.name])
+
 
 def ros_service_namespace(package_name, interface_path):
-  return _NAMESPACE_DELIMETER.join([package_name] + list(interface_path.parents[0].parts))
+    return _NAMESPACE_DELIMETER.join([package_name] + list(interface_path.parents[0].parts))
+
 
 def ros_service_name(service):
-  return service.namespaced_type.name
+    return service.namespaced_type.name
+
 
 def ros_service_type(package_name, interface_path, service):
-  ros_type_ns = ros_service_namespace(package_name, interface_path)
-  ros_type_nm = ros_service_name(service)
-  return "::" + _NAMESPACE_DELIMETER.join([ros_type_ns, ros_type_nm])
+    ros_type_ns = ros_service_namespace(package_name, interface_path)
+    ros_type_nm = ros_service_name(service)
+    return '::' + _NAMESPACE_DELIMETER.join([ros_type_ns, ros_type_nm])
+
 
 def protobuf_type(package_name, interface_path, message):
-  namespace = "::".join([package_name] + list(interface_path.parents[0].parts))
-  return "::" + "::".join([namespace, PROTO_PACKAGE_POSTFIX, ros_type_name(message)])
+    namespace = '::'.join([package_name] + list(interface_path.parents[0].parts))
+    return '::' + '::'.join([namespace, PROTO_PACKAGE_POSTFIX, ros_type_name(message)])
+
 
 def protobuf_type_from_namespaced_type(namespaced_type):
-  return "::" + "::".join(namespaced_type.namespaces + [PROTO_PACKAGE_POSTFIX, namespaced_type.name])
+    return '::' + '::'.join(namespaced_type.namespaces +
+                            [PROTO_PACKAGE_POSTFIX, namespaced_type.name])
+
 
 def protobuf_type_from_namespaced_type_c(namespaced_type):
-  return "::" + "::".join(namespaced_type.namespaces + [PROTO_PACKAGE_POSTFIX, namespaced_type.name])
+    return '::' + '::'.join(namespaced_type.namespaces +
+                            [PROTO_PACKAGE_POSTFIX, namespaced_type.name])
