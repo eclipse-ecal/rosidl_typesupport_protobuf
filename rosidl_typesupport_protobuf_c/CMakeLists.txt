@@ -58,24 +58,18 @@ find_package(rmw REQUIRED)
 find_package(ament_cmake_python REQUIRED)
 find_package(rosidl_typesupport_protobuf REQUIRED)
 find_package(rosidl_generator_c REQUIRED)
-if(${is_foxy_or_greater})
-  find_package(rosidl_runtime_c REQUIRED)
-endif()
+find_package(rosidl_runtime_c REQUIRED)
 find_package(rosidl_typesupport_introspection_c REQUIRED)
 find_package(rosidl_typesupport_introspection_cpp REQUIRED)
 
 ament_export_dependencies(rmw)
 ament_export_dependencies(rosidl_cmake)
 ament_export_dependencies(rosidl_generator_c)
-if(${is_foxy_or_greater})
-  ament_export_dependencies(rosidl_runtime_c)
-endif()
+ament_export_dependencies(rosidl_runtime_c)
 ament_export_dependencies(rosidl_typesupport_introspection_c)
 ament_export_dependencies(rosidl_typesupport_introspection_cpp)
 ament_export_dependencies(rosidl_typesupport_interface)
 ament_export_dependencies(rosidl_typesupport_protobuf)
-
-ament_export_include_directories(include)
 
 ament_python_install_package(${PROJECT_NAME})
 
@@ -89,15 +83,20 @@ if(WIN32)
     PRIVATE "ROSIDL_TYPESUPPORT_PROTOBUF_C_BUILDING_DLL")
 endif()
 
-if(${is_foxy_or_greater})
-  ament_target_dependencies(${PROJECT_NAME} "rosidl_typesupport_protobuf" rosidl_runtime_c)
-else()
-  ament_target_dependencies(${PROJECT_NAME} "rosidl_typesupport_protobuf" rosidl_generator_c)
-endif()
+# TODO(tfoote) This needs cpp to build due to https://github.com/tfoote/rosidl_typesupport_protobuf/blob/132668ae385163ee8b45ce45a9022654e5c77666/rosidl_typesupport_protobuf_c/resource/msg__rosidl_typesupport_protobuf_c.hpp.em#L30
+# This looks like it might want to be cleaned up.
+ament_target_dependencies(${PROJECT_NAME} "rosidl_typesupport_protobuf" rosidl_runtime_c rosidl_runtime_cpp)
 
-target_include_directories(${PROJECT_NAME} PUBLIC include)
+target_include_directories(${PROJECT_NAME} PUBLIC
+  "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>"
+  "$<INSTALL_INTERFACE:include/${PROJECT_NAME}>")
 
+# Export old-style CMake variables
+ament_export_include_directories("include/${PROJECT_NAME}")
 ament_export_libraries(${PROJECT_NAME})
+
+# Export modern CMake targets
+ament_export_targets(${PROJECT_NAME})
 
 ament_target_dependencies(${PROJECT_NAME} rosidl_typesupport_protobuf)
 
@@ -119,7 +118,7 @@ install(
 
 install(
   DIRECTORY include/
-  DESTINATION include
+  DESTINATION include/${PROJECT_NAME}
 )
 
 install(

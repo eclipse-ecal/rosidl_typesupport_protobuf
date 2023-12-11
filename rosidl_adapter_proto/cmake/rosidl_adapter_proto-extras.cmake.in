@@ -40,7 +40,7 @@ else()
   endif()
   
   foreach(_pkg_name ${rosidl_generate_interfaces_DEPENDENCY_PACKAGE_NAMES})
-    set(_proto_dir "${${_pkg_name}_DIR}/../../../include/${_pkg_name}/rosidl_adapter_proto__visibility_control.h")
+    set(_proto_dir "${${_pkg_name}_DIR}/../../../include/${_pkg_name}/${_pkg_name}/rosidl_adapter_proto__visibility_control.h")
     normalize_path(_proto_dir "${_proto_dir}")
     if(NOT WIN32)
       add_compile_options("-include${_proto_dir}")
