@@ -22,6 +22,21 @@ project(rosidl_adapter_proto)
 find_package(ament_cmake REQUIRED)
 find_package(ament_cmake_python REQUIRED)
 
+if(BUILD_TESTING)
+  find_package(ament_cmake_pytest REQUIRED)
+  find_package(rosidl_cmake REQUIRED)
+  ament_add_pytest_test(pytest test)
+  set(generator_arguments_file "${CMAKE_CURRENT_SOURCE_DIR}/test/msg/test_rosid_adapter_proto__arguments.json")
+  rosidl_write_generator_arguments(
+    "${generator_arguments_file}"
+    PACKAGE_NAME "${PROJECT_NAME}"
+    IDL_TUPLES "${CMAKE_CURRENT_SOURCE_DIR}/test:msg/BoolTest.idl"
+    OUTPUT_DIR "${CMAKE_CURRENT_SOURCE_DIR}/test"
+    TEMPLATE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/resource"
+    TARGET_DEPENDENCIES "${CMAKE_CURRENT_SOURCE_DIR}/test/msg/BoolTest.idl"
+    ADDITIONAL_FILES "")
+endif()
+
 ament_python_install_package(${PROJECT_NAME})
 
 ament_package(CONFIG_EXTRAS "cmake/rosidl_adapter_proto-extras.cmake.in")

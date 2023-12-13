@@ -44,6 +44,6 @@ jobs:
           path: ros_ws/src
       - uses: ros-tooling/action-ros-ci@v0.3
         with:
-          package-name: rosidl_adapter_proto rosidl_typesupport_protobuf rosidl_typesupport_protobuf_cpp rosidl_typesupport_protobuf_c
+          package-name: rosidl_adapter_proto rosidl_typesupport_protobuf rosidl_typesupport_protobuf_cpp rosidl_typesupport_protobuf_c rosidl_typeadapter_protobuf_test
           target-ros2-distro: ${{ matrix.ros_distribution }}
           vcs-repo-file-url: https://raw.githubusercontent.com/ros2/ros2/${{ matrix.ros_distribution }}/ros2.repos
