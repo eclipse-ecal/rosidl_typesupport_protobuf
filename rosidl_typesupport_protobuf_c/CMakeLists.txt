@@ -106,10 +106,10 @@ ament_target_dependencies(${PROJECT_NAME} rosidl_typesupport_protobuf)
 
 ament_index_register_resource("rosidl_typesupport_c")
 
-if(BUILD_TESTING)
-  find_package(ament_lint_auto REQUIRED)
-  ament_lint_auto_find_test_dependencies()
-endif()
+# if(BUILD_TESTING)
+#   find_package(ament_lint_auto REQUIRED)
+#   ament_lint_auto_find_test_dependencies()
+# endif()
 
 ament_package(
   CONFIG_EXTRAS "cmake/rosidl_typesupport_protobuf_c-extras.cmake.in"

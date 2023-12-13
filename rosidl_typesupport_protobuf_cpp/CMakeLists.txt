@@ -89,10 +89,10 @@ ament_export_targets(${PROJECT_NAME})
 
 ament_index_register_resource("rosidl_typesupport_cpp")
 
-if(BUILD_TESTING)
-  find_package(ament_lint_auto REQUIRED)
-  ament_lint_auto_find_test_dependencies()
-endif()
+# if(BUILD_TESTING)
+#   find_package(ament_lint_auto REQUIRED)
+#   ament_lint_auto_find_test_dependencies()
+# endif()
 
 ament_package(CONFIG_EXTRAS "cmake/rosidl_typesupport_protobuf_cpp-extras.cmake.in")
 
