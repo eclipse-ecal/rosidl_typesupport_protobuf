@@ -97,6 +97,10 @@ def visibility_control_header(package_name):
     return f'{package_name}/{_TYPE_SUPPORT_NAME}__visibility_control.h'
 
 
+def adapter_visibility_control_header(package_name):
+    return f'{package_name}/rosidl_adapter_proto__visibility_control.h'
+
+
 def ros_type_namespace(package_name, interface_path):
     return _NAMESPACE_DELIMETER.join([package_name] + list(interface_path.parents[0].parts))
 

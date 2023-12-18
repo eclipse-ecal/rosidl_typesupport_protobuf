@@ -32,6 +32,7 @@ system_header_files = [
 header_files = [
     "rclcpp/type_adapter.hpp",
     ros_message_header(package_name, interface_path),
+    adapter_visibility_control_header(package_name),
     typesupport_message_header(package_name, interface_path),
     visibility_control_header(package_name),
     'rosidl_typesupport_protobuf/rosidl_generator_c_pkg_adapter.hpp',
@@ -51,8 +52,6 @@ TEMPLATE(
 )
 }@
 
-namespace rclcpp 
-{
 
 
 @[for message in content.get_elements_of_type(Message)]@
@@ -63,6 +62,9 @@ ros_type_name = ros_type_name(message)
 ros_type = ros_type(package_name, interface_path, message)
 proto_type = protobuf_type(package_name, interface_path, message)
 }@
+
+namespace rclcpp 
+{
 
   template<>
   struct TypeAdapter<@(proto_type),  @(ros_type)>
@@ -90,7 +92,20 @@ proto_type = protobuf_type(package_name, interface_path, message)
     }
   };
 
-@[end for]@
-
 }
 
+@[for ns in message.structure.namespaced_type.namespaces]@
+namespace @(ns)
+{
+@[end for]@
+namespace typesupport_protobuf_cpp
+{
+
+using @(message.structure.namespaced_type.name)TypeAdapter = rclcpp::TypeAdapter<@(proto_type),  @(ros_type)>;
+
+}  // namespace typesupport_protobuf_cpp
+@[  for ns in reversed(message.structure.namespaced_type.namespaces)]@
+}  // namespace @(ns)
+@[  end for]@
+
+@[end for]@
