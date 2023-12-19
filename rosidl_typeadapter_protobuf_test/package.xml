@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
-<?xml-model href="http://download.ros.org/schema/package_format2.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
-<package format="2">
+<?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
+<package format="3">
   <name>rosidl_typeadapter_protobuf_test</name>
   <version>0.19.1</version>
   <description>Protobuff type adapter test</description>
@@ -35,6 +35,7 @@
   <test_depend>rmw_implementation_cmake</test_depend>
   <test_depend>ros2cli</test_depend>
   <test_depend>test_msgs</test_depend>
+  <test_depend>rosidl_typesupport_protobuf_cpp</test_depend>
 
 
   <export>

@@ -28,6 +28,8 @@
   <exec_depend>rosidl_typesupport_interface</exec_depend>
   <exec_depend>rosidl_typesupport_protobuf</exec_depend>
 
+  <test_depend>ament_cmake_gtest</test_depend>
+
   <member_of_group>rosidl_typesupport_cpp_packages</member_of_group>
 
   <export>

@@ -106,6 +106,17 @@ ament_target_dependencies(${PROJECT_NAME} rosidl_typesupport_protobuf)
 
 ament_index_register_resource("rosidl_typesupport_c")
 
+if(BUILD_TESTING)
+  # find_package(ament_lint_auto REQUIRED)
+  # ament_lint_auto_find_test_dependencies()
+  find_package(ament_cmake_gtest REQUIRED)
+  ament_add_gtest(test_wstring_conversion test/test_wstring_conversion.cpp)
+  if(TARGET test_wstring_conversion)
+    target_link_libraries(test_wstring_conversion
+      ${PROJECT_NAME})
+  endif()
+endif()
+
 ament_package(
   CONFIG_EXTRAS "cmake/rosidl_typesupport_protobuf_c-extras.cmake.in"
 )

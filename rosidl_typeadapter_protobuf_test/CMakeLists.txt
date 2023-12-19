@@ -31,6 +31,7 @@ if(BUILD_TESTING)
   find_package(rcl REQUIRED)
   find_package(rclcpp REQUIRED)
   find_package(test_msgs REQUIRED)
+  find_package(rosidl_typesupport_protobuf_cpp REQUIRED)
 
 
   include_directories(include)

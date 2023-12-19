@@ -37,6 +37,7 @@
 #include "test_msgs/msg/strings__typeadapter_protobuf_cpp.hpp"
 #include "test_msgs/msg/unbounded_sequences__typeadapter_protobuf_cpp.hpp"
 #include "test_msgs/msg/w_strings__typeadapter_protobuf_cpp.hpp"
+#include "rosidl_typesupport_protobuf_cpp/wstring_conversion.hpp"
 
 static inline std::string
 from_u8string(const std::string & s)
@@ -673,41 +674,59 @@ get_proto_messages_builtins()
 static inline std::vector<WStringsSharedPtr>
 get_proto_messages_wstrings()
 {
+  using rosidl_typesupport_protobuf_cpp::write_to_string;
+  std::string actual;
   std::vector<WStringsSharedPtr> messages;
   {
     auto msg = std::make_shared<test_msgs::msg::pb::WStrings>();
     msg->add_array_of_wstrings("");
     msg->add_array_of_wstrings("");
     msg->add_array_of_wstrings("");
-    // msg->set_wstring_value("");
-    // msg->set_array_of_wstrings(0, u"1");
-    // msg->set_array_of_wstrings[1] = u"two";
-    // msg->set_array_of_wstrings[2] = u"三";  // "One" in Japanese
-    // msg->set_bounded_sequence_of_wstrings.resize(2);
-    // msg->set_bounded_sequence_of_wstrings[0] = u"one";
-    // msg->set_bounded_sequence_of_wstrings[1] = u"二";  // "Two" in Japanese
-    // msg->set_unbounded_sequence_of_wstrings.resize(4);
-    // msg->set_unbounded_sequence_of_wstrings[0] = u".";
-    // msg->set_unbounded_sequence_of_wstrings[1] = u"..";
-    // msg->set_unbounded_sequence_of_wstrings[2] = u"...";
-    // msg->set_unbounded_sequence_of_wstrings[3] = u"四";  // "Four" in Japanese
+    msg->set_wstring_value("");
+    write_to_string(std::u16string(u"1"), actual);
+    msg->set_array_of_wstrings(0, actual);
+    write_to_string(std::u16string(u"two"), actual);
+    msg->set_array_of_wstrings(1, actual);
+    write_to_string(std::u16string(u"三"), actual);  // "One" in Japanese
+    msg->set_array_of_wstrings(2, actual);
+    msg->add_bounded_sequence_of_wstrings();
+    msg->add_bounded_sequence_of_wstrings();
+    write_to_string(std::u16string(u"one"), actual);
+    msg->set_bounded_sequence_of_wstrings(0, actual);
+    write_to_string(std::u16string(u"二"), actual);  // "Two" in Japanese
+    msg->set_bounded_sequence_of_wstrings(1, actual);
+    msg->add_unbounded_sequence_of_wstrings();
+    msg->add_unbounded_sequence_of_wstrings();
+    msg->add_unbounded_sequence_of_wstrings();
+    msg->add_unbounded_sequence_of_wstrings();
+    write_to_string(std::u16string(u"."), actual);
+    msg->set_unbounded_sequence_of_wstrings(0, actual);
+    write_to_string(std::u16string(u".."), actual);
+    msg->set_unbounded_sequence_of_wstrings(1, actual);
+    write_to_string(std::u16string(u"..."), actual);
+    msg->set_unbounded_sequence_of_wstrings(2, actual);
+    write_to_string(std::u16string(u"四"), actual);
+    msg->set_unbounded_sequence_of_wstrings(3, actual);  // "Four" in Japanese
     messages.push_back(msg);
   }
-  // {
-  //   auto msg = std::make_shared<test_msgs::msg::pb::WStrings>();
-  //   msg->set_wstring_value(u"ascii";
-  //   messages.push_back(msg);
-  // }
-  // {
-  //   auto msg = std::make_shared<test_msgs::msg::pb::WStrings>();
-  //   msg->set_wstring_value(u"Hell\u00F6 W\u00F6rld!";  // using umlaut
-  //   messages.push_back(msg);
-  // }
-  // {
-  //   auto msg = std::make_shared<test_msgs::msg::pb::WStrings>();
-  //   msg->set_wstring_value(u"ハローワールド";  // "Hello world" in Japanese
-  //    messages.push_back(msg);
-  // }
+  {
+    auto msg = std::make_shared<test_msgs::msg::pb::WStrings>();
+    write_to_string(std::u16string(u"ascii"), actual);
+    msg->set_wstring_value(actual);
+    messages.push_back(msg);
+  }
+  {
+    auto msg = std::make_shared<test_msgs::msg::pb::WStrings>();
+    write_to_string(std::u16string(u"Hell\u00F6 W\u00F6rld!"), actual);    // using umlaut
+    msg->set_wstring_value(actual);
+    messages.push_back(msg);
+  }
+  {
+    auto msg = std::make_shared<test_msgs::msg::pb::WStrings>();
+    write_to_string(std::u16string(u"ハローワールド"), actual);  // "Hello world" in Japanese
+    msg->set_wstring_value(actual);
+    messages.push_back(msg);
+  }
   return messages;
 }
 
