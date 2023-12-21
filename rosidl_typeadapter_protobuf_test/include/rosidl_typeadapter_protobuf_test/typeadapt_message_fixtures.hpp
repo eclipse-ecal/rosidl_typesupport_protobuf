@@ -39,6 +39,9 @@
 #include "test_msgs/msg/w_strings__typeadapter_protobuf_cpp.hpp"
 #include "rosidl_typesupport_protobuf_cpp/wstring_conversion.hpp"
 
+namespace rosidl_typeadapter_protobuf_test
+{
+
 static inline std::string
 from_u8string(const std::string & s)
 {
@@ -58,6 +61,8 @@ from_u8string(const std::u8string & s)
   return std::string(s.begin(), s.end());
 }
 #endif
+
+}  // namespace rosidl_typeadapter_protobuf_test
 
 typedef std::shared_ptr<test_msgs::msg::pb::Empty> EmptySharedPtr;
 typedef std::shared_ptr<test_msgs::msg::pb::BasicTypes> BasicTypesSharedPtr;
@@ -197,8 +202,10 @@ get_proto_messages_strings()
   }
   {
     auto msg = std::make_shared<test_msgs::msg::pb::Strings>();
-    msg->set_string_value(from_u8string(u8"Hell\u00F6 W\u00F6rld!"));  // using umlaut
-    msg->set_bounded_string_value(from_u8string(u8"Hell\u00F6 W\u00F6rld!"));  // using umlaut
+    msg->set_string_value(
+      rosidl_typeadapter_protobuf_test::from_u8string(u8"Hell\u00F6 W\u00F6rld!"));  // using umlaut
+    msg->set_bounded_string_value(
+      rosidl_typeadapter_protobuf_test::from_u8string(u8"Hell\u00F6 W\u00F6rld!"));  // using umlaut
     messages.push_back(msg);
   }
   {
