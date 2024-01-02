@@ -12,7 +12,7 @@
   <exec_depend>python3-empy</exec_depend>
   <exec_depend>rosidl_cli</exec_depend>
   <exec_depend>rosidl_parser</exec_depend>
-  
+
   <member_of_group>rosidl_interface_packages</member_of_group>
   
   <export>

@@ -106,7 +106,7 @@ configure_file(
 set(_target_suffix "__rosidl_typesupport_protobuf_cpp")
 
 add_library(${rosidl_generate_interfaces_TARGET}${_target_suffix} SHARED
-  ${_generated_files} 
+  ${_generated_files}
   ${rosidl_adapter_proto_GENERATED_CPP}
 )
 
@@ -125,7 +125,7 @@ set_target_properties(${rosidl_generate_interfaces_TARGET}${_target_suffix}
 if(WIN32)
   target_compile_definitions(${rosidl_generate_interfaces_TARGET}${_target_suffix}
     PRIVATE "ROSIDL_TYPESUPPORT_PROTOBUF_BUILDING_DLL" "ROSIDL_TYPESUPPORT_PROTOBUF_CPP_BUILDING_DLL__${PROJECT_NAME}")
-  set (Protobuf_USE_STATIC_LIBS TRUE)
+  set(Protobuf_USE_STATIC_LIBS TRUE)
 endif()
 
 # Set compiler flags
