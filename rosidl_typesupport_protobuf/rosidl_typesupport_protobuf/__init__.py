@@ -35,6 +35,13 @@ def set_namespace_delimeter(val):
     _NAMESPACE_DELIMETER = val
 
 
+def typesupport_message_header(package_name, interface_path):
+  include_parts = [package_name] + list(interface_path.parents[0].parts)
+  include_parts += [convert_camel_case_to_lower_case_underscore(interface_path.stem)]
+  include_base = '/'.join(include_parts)
+
+  return f"{include_base}__rosidl_typesupport_protobuf_cpp.hpp"
+
 def ros_message_header(package_name, interface_path):
     include_parts = [package_name] + list(interface_path.parents[0].parts)
     include_parts += ['detail']
@@ -88,6 +95,10 @@ def typesupport_header(package_name, interface_path):
 
 def visibility_control_header(package_name):
     return f'{package_name}/{_TYPE_SUPPORT_NAME}__visibility_control.h'
+
+
+def adapter_visibility_control_header(package_name):
+    return f'{package_name}/rosidl_adapter_proto__visibility_control.h'
 
 
 def ros_type_namespace(package_name, interface_path):
