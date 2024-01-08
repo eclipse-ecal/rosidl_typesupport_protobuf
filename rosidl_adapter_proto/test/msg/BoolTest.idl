@@ -1,0 +1,7 @@
+module rosidl_adapter_proto {
+  @verbatim (language="comment", text=
+    "This is for test purposes.")
+  struct Bool {
+    boolean data;
+  };
+};
