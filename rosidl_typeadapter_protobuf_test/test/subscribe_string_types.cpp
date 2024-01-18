@@ -33,7 +33,7 @@ rclcpp::SubscriptionBase::SharedPtr subscribe_strings(
   const std::vector<std::shared_ptr<test_msgs::msg::pb::Strings>> & expected_messages,
   std::vector<bool> & received_messages)
 {
-  return subscribe<test_msgs::msg::typesupport_protobuf_cpp::StringsTypeAdapter>(
+  return subscribe<test_msgs::msg::pb::Strings>(
     node, message_type, expected_messages, received_messages);
 }
 
@@ -43,6 +43,6 @@ rclcpp::SubscriptionBase::SharedPtr subscribe_wstrings(
   const std::vector<std::shared_ptr<test_msgs::msg::pb::WStrings>> & expected_messages,
   std::vector<bool> & received_messages)
 {
-  return subscribe<test_msgs::msg::typesupport_protobuf_cpp::WStringsTypeAdapter>(
+  return subscribe<test_msgs::msg::pb::WStrings>(
     node, message_type, expected_messages, received_messages);
 }
