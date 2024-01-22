@@ -35,7 +35,7 @@ rclcpp::SubscriptionBase::SharedPtr subscribe_empty(
   const std::vector<std::shared_ptr<test_msgs::msg::pb::Empty>> & messages_expected,
   std::vector<bool> & received_messages)
 {
-  return subscribe<test_msgs::msg::typesupport_protobuf_cpp::EmptyTypeAdapter>(
+  return subscribe<test_msgs::msg::pb::Empty>(
     node, message_type, messages_expected, received_messages);
 }
 
@@ -45,7 +45,7 @@ rclcpp::SubscriptionBase::SharedPtr subscribe_basic_types(
   const std::vector<std::shared_ptr<test_msgs::msg::pb::BasicTypes>> & messages_expected,
   std::vector<bool> & received_messages)
 {
-  return subscribe<test_msgs::msg::typesupport_protobuf_cpp::BasicTypesTypeAdapter>(
+  return subscribe<test_msgs::msg::pb::BasicTypes>(
     node, message_type, messages_expected, received_messages);
 }
 
@@ -55,7 +55,7 @@ rclcpp::SubscriptionBase::SharedPtr subscribe_builtins(
   const std::vector<std::shared_ptr<test_msgs::msg::pb::Builtins>> & messages_expected,
   std::vector<bool> & received_messages)
 {
-  return subscribe<test_msgs::msg::typesupport_protobuf_cpp::BuiltinsTypeAdapter>(
+  return subscribe<test_msgs::msg::pb::Builtins>(
     node, message_type, messages_expected, received_messages);
 }
 
@@ -65,7 +65,7 @@ rclcpp::SubscriptionBase::SharedPtr subscribe_constants(
   const std::vector<std::shared_ptr<test_msgs::msg::pb::Constants>> & messages_expected,
   std::vector<bool> & received_messages)
 {
-  return subscribe<test_msgs::msg::typesupport_protobuf_cpp::ConstantsTypeAdapter>(
+  return subscribe<test_msgs::msg::pb::Constants>(
     node, message_type, messages_expected, received_messages);
 }
 
@@ -75,6 +75,6 @@ rclcpp::SubscriptionBase::SharedPtr subscribe_defaults(
   const std::vector<std::shared_ptr<test_msgs::msg::pb::Defaults>> & messages_expected,
   std::vector<bool> & received_messages)
 {
-  return subscribe<test_msgs::msg::typesupport_protobuf_cpp::DefaultsTypeAdapter>(
+  return subscribe<test_msgs::msg::pb::Defaults>(
     node, message_type, messages_expected, received_messages);
 }

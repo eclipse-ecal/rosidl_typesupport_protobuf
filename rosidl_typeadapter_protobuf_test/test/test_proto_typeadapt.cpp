@@ -108,58 +108,58 @@ int main(int argc, char ** argv)
 
   if (message == "Empty") {
     subscriber = subscribe_empty(node, message, messages_empty, received_messages);
-    publish<test_msgs::msg::typesupport_protobuf_cpp::EmptyTypeAdapter>(
+    publish<test_msgs::msg::pb::Empty>(
       node, message, messages_empty);
   } else if (message == "BasicTypes") {
     subscriber = subscribe_basic_types(node, message, messages_basic_types, received_messages);
-    publish<test_msgs::msg::typesupport_protobuf_cpp::BasicTypesTypeAdapter>(
+    publish<test_msgs::msg::pb::BasicTypes>(
       node, message, messages_basic_types);
   } else if (message == "Arrays") {
     subscriber = subscribe_arrays(node, message, messages_arrays, received_messages);
-    publish<test_msgs::msg::typesupport_protobuf_cpp::ArraysTypeAdapter>(
+    publish<test_msgs::msg::pb::Arrays>(
       node, message, messages_arrays);
   } else if (message == "UnboundedSequences") {
     subscriber = subscribe_unbounded_sequences(
       node, message, messages_unbounded_sequences, received_messages);
-    publish<test_msgs::msg::typesupport_protobuf_cpp::UnboundedSequencesTypeAdapter>(
+    publish<test_msgs::msg::pb::UnboundedSequences>(
       node, message, messages_unbounded_sequences);
   } else if (message == "BoundedPlainSequences") {
     subscriber = subscribe_bounded_plain_sequences(
       node, message, messages_bounded_plain_sequences, received_messages);
-    publish<test_msgs::msg::typesupport_protobuf_cpp::BoundedPlainSequencesTypeAdapter>(
+    publish<test_msgs::msg::pb::BoundedPlainSequences>(
       node, message, messages_bounded_plain_sequences);
   } else if (message == "BoundedSequences") {
     subscriber = subscribe_bounded_sequences(
       node, message, messages_bounded_sequences, received_messages);
-    publish<test_msgs::msg::typesupport_protobuf_cpp::BoundedSequencesTypeAdapter>(
+    publish<test_msgs::msg::pb::BoundedSequences>(
       node, message, messages_bounded_sequences);
   } else if (message == "MultiNested") {
     subscriber = subscribe_multi_nested(node, message, messages_multi_nested, received_messages);
-    publish<test_msgs::msg::typesupport_protobuf_cpp::MultiNestedTypeAdapter>(
+    publish<test_msgs::msg::pb::MultiNested>(
       node, message, messages_multi_nested);
   } else if (message == "Nested") {
     subscriber = subscribe_nested(node, message, messages_nested, received_messages);
-    publish<test_msgs::msg::typesupport_protobuf_cpp::NestedTypeAdapter>(
+    publish<test_msgs::msg::pb::Nested>(
       node, message, messages_nested);
   } else if (message == "Builtins") {
     subscriber = subscribe_builtins(node, message, messages_builtins, received_messages);
-    publish<test_msgs::msg::typesupport_protobuf_cpp::BuiltinsTypeAdapter>(
+    publish<test_msgs::msg::pb::Builtins>(
       node, message, messages_builtins);
   } else if (message == "Constants") {
     subscriber = subscribe_constants(node, message, messages_constants, received_messages);
-    publish<test_msgs::msg::typesupport_protobuf_cpp::ConstantsTypeAdapter>(
+    publish<test_msgs::msg::pb::Constants>(
       node, message, messages_constants);
   } else if (message == "Defaults") {
     subscriber = subscribe_defaults(node, message, messages_defaults, received_messages);
-    publish<test_msgs::msg::typesupport_protobuf_cpp::DefaultsTypeAdapter>(
+    publish<test_msgs::msg::pb::Defaults>(
       node, message, messages_defaults);
   } else if (message == "Strings") {
     subscriber = subscribe_strings(node, message, messages_strings, received_messages);
-    publish<test_msgs::msg::typesupport_protobuf_cpp::StringsTypeAdapter>(
+    publish<test_msgs::msg::pb::Strings>(
       node, message, messages_strings);
   } else if (message == "WStrings") {
     subscriber = subscribe_wstrings(node, message, messages_wstrings, received_messages);
-    publish<test_msgs::msg::typesupport_protobuf_cpp::WStringsTypeAdapter>(
+    publish<test_msgs::msg::pb::WStrings>(
       node, message, messages_wstrings);
   } else {
     fprintf(stderr, "Unknown message argument '%s'\n", message.c_str());

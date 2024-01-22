@@ -52,8 +52,6 @@ TEMPLATE(
 )
 }@
 
-
-
 @[for message in content.get_elements_of_type(Message)]@
 
 @{
@@ -63,49 +61,32 @@ ros_type = ros_type(package_name, interface_path, message)
 proto_type = protobuf_type(package_name, interface_path, message)
 }@
 
-namespace rclcpp 
+template<>
+struct rclcpp::TypeAdapter<@(proto_type),  @(ros_type)>
 {
+  using is_specialized = std::true_type;
+  using custom_type = @(proto_type);
+  using ros_message_type =  @(ros_type);
 
-  template<>
-  struct TypeAdapter<@(proto_type),  @(ros_type)>
+  static
+  void
+  convert_to_ros_message(
+   const custom_type & source,
+   ros_message_type & destination)
   {
-    using is_specialized = std::true_type;
-    using custom_type = @(proto_type);
-    using ros_message_type =  @(ros_type);
+   @("::".join(message.structure.namespaced_type.namespaces))::typesupport_protobuf_cpp::convert_to_ros(source, destination);
+  }
 
-    static
-    void
-    convert_to_ros_message(
-     const custom_type & source,
-     ros_message_type & destination)
-    {
-     @("::".join(message.structure.namespaced_type.namespaces))::typesupport_protobuf_cpp::convert_to_ros(source, destination);
-    }
+  static
+  void
+  convert_to_custom(
+    const ros_message_type & source,
+    custom_type & destination)
+  {
+    @("::".join(message.structure.namespaced_type.namespaces))::typesupport_protobuf_cpp::convert_to_proto(source, destination);
+  }
+};
 
-    static
-    void
-    convert_to_custom(
-      const ros_message_type & source,
-      custom_type & destination)
-    {
-      @("::".join(message.structure.namespaced_type.namespaces))::typesupport_protobuf_cpp::convert_to_proto(source, destination);
-    }
-  };
-
-}
-
-@[for ns in message.structure.namespaced_type.namespaces]@
-namespace @(ns)
-{
-@[end for]@
-namespace typesupport_protobuf_cpp
-{
-
-using @(message.structure.namespaced_type.name)TypeAdapter = rclcpp::TypeAdapter<@(proto_type),  @(ros_type)>;
-
-}  // namespace typesupport_protobuf_cpp
-@[  for ns in reversed(message.structure.namespaced_type.namespaces)]@
-}  // namespace @(ns)
-@[  end for]@
+RCLCPP_USING_CUSTOM_TYPE_AS_ROS_MESSAGE_TYPE(@(proto_type),  @(ros_type));
 
 @[end for]@

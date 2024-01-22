@@ -37,7 +37,7 @@ rclcpp::SubscriptionBase::SharedPtr subscribe_arrays(
   const std::vector<std::shared_ptr<test_msgs::msg::pb::Arrays>> & expected_messages,
   std::vector<bool> & received_messages)
 {
-  return subscribe<test_msgs::msg::typesupport_protobuf_cpp::ArraysTypeAdapter>(
+  return subscribe<test_msgs::msg::pb::Arrays>(
     node, message_type, expected_messages, received_messages);
 }
 
@@ -47,7 +47,7 @@ rclcpp::SubscriptionBase::SharedPtr subscribe_unbounded_sequences(
   const std::vector<std::shared_ptr<test_msgs::msg::pb::UnboundedSequences>> & expected_messages,
   std::vector<bool> & received_messages)
 {
-  return subscribe<test_msgs::msg::typesupport_protobuf_cpp::UnboundedSequencesTypeAdapter>(
+  return subscribe<test_msgs::msg::pb::UnboundedSequences>(
     node, message_type, expected_messages, received_messages);
 }
 
@@ -57,7 +57,7 @@ rclcpp::SubscriptionBase::SharedPtr subscribe_bounded_plain_sequences(
   const std::vector<std::shared_ptr<test_msgs::msg::pb::BoundedPlainSequences>> & expected_messages,
   std::vector<bool> & received_messages)
 {
-  return subscribe<test_msgs::msg::typesupport_protobuf_cpp::BoundedPlainSequencesTypeAdapter>(
+  return subscribe<test_msgs::msg::pb::BoundedPlainSequences>(
     node, message_type, expected_messages, received_messages);
 }
 
@@ -67,7 +67,7 @@ rclcpp::SubscriptionBase::SharedPtr subscribe_bounded_sequences(
   const std::vector<std::shared_ptr<test_msgs::msg::pb::BoundedSequences>> & expected_messages,
   std::vector<bool> & received_messages)
 {
-  return subscribe<test_msgs::msg::typesupport_protobuf_cpp::BoundedSequencesTypeAdapter>(
+  return subscribe<test_msgs::msg::pb::BoundedSequences>(
     node, message_type, expected_messages, received_messages);
 }
 
@@ -77,7 +77,7 @@ rclcpp::SubscriptionBase::SharedPtr subscribe_multi_nested(
   const std::vector<std::shared_ptr<test_msgs::msg::pb::MultiNested>> & expected_messages,
   std::vector<bool> & received_messages)
 {
-  return subscribe<test_msgs::msg::typesupport_protobuf_cpp::MultiNestedTypeAdapter>(
+  return subscribe<test_msgs::msg::pb::MultiNested>(
     node, message_type, expected_messages, received_messages);
 }
 
@@ -87,6 +87,6 @@ rclcpp::SubscriptionBase::SharedPtr subscribe_nested(
   const std::vector<std::shared_ptr<test_msgs::msg::pb::Nested>> & expected_messages,
   std::vector<bool> & received_messages)
 {
-  return subscribe<test_msgs::msg::typesupport_protobuf_cpp::NestedTypeAdapter>(
+  return subscribe<test_msgs::msg::pb::Nested>(
     node, message_type, expected_messages, received_messages);
 }
