@@ -12,12 +12,22 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from rosidl_cmake import generate_files
+from rosidl_pycommon import generate_files
 
 
-def generate_typesupport_protobuf_c(generator_arguments_file):
-    mapping = {
+def get_template_mapping():
+    return {
         'idl__rosidl_typesupport_protobuf_c.hpp.em': '%s__rosidl_typesupport_protobuf_c.hpp',
         'idl__type_support.cpp.em': 'detail/%s__type_support.cpp',
     }
-    generate_files(generator_arguments_file, mapping)
+
+def generate_typesupport_protobuf_c(generator_arguments_file):
+    """
+    Generate the C type support to handle ROS messages.
+    :param generator_arguments_file: Path location of the file containing the generator arguments
+    :param type_support: List of type supports to be used
+    """
+    mapping =  get_template_mapping()
+   
+    return generate_files(
+        generator_arguments_file, mapping)

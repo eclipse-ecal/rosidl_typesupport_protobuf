@@ -34,51 +34,6 @@ foreach(_abs_idl_file ${rosidl_generate_interfaces_ABS_IDL_FILES})
   )
 endforeach()
 
-set(_dependency_files "")
-set(_dependencies "")
-foreach(_pkg_name ${rosidl_generate_interfaces_DEPENDENCY_PACKAGE_NAMES})
-  foreach(_idl_file ${${_pkg_name}_IDL_FILES})
-    set(_abs_idl_file "${${_pkg_name}_DIR}/../${_idl_file}")
-    normalize_path(_abs_idl_file "${_abs_idl_file}")
-    list(APPEND _dependency_files "${_abs_idl_file}")
-    list(APPEND _dependencies "${_pkg_name}:${_abs_idl_file}")
-  endforeach()
-endforeach()
-
-set(target_dependencies
-  "${rosidl_typesupport_protobuf_c_BIN}"
-  ${rosidl_typesupport_protobuf_c_GENERATOR_FILES}
-  "${rosidl_typesupport_protobuf_c_TEMPLATE_DIR}/idl__rosidl_typesupport_protobuf_c.hpp.em"
-  "${rosidl_typesupport_protobuf_c_TEMPLATE_DIR}/idl__type_support.cpp.em"
-  "${rosidl_typesupport_protobuf_c_TEMPLATE_DIR}/msg__rosidl_typesupport_protobuf_c.hpp.em"
-  "${rosidl_typesupport_protobuf_c_TEMPLATE_DIR}/msg__type_support.cpp.em"
-  "${rosidl_typesupport_protobuf_c_TEMPLATE_DIR}/srv__rosidl_typesupport_protobuf_c.hpp.em"
-  "${rosidl_typesupport_protobuf_c_TEMPLATE_DIR}/srv__type_support.cpp.em"
-  "${rosidl_typesupport_protobuf_c_TEMPLATE_DIR}/rosidl_typesupport_protobuf_c__visibility_control.h.in"
-  ${rosidl_generate_interfaces_ABS_IDL_FILES}
-  ${_dependency_files}
-)
-
-set(generator_arguments_file "${CMAKE_CURRENT_BINARY_DIR}/rosidl_typesupport_protobuf_c__arguments.json")
-rosidl_write_generator_arguments(
-  "${generator_arguments_file}"
-  PACKAGE_NAME "${PROJECT_NAME}"
-  IDL_TUPLES "${rosidl_generate_interfaces_IDL_TUPLES}"
-  ROS_INTERFACE_DEPENDENCIES "${_dependencies}"
-  OUTPUT_DIR "${_output_path}"
-  TEMPLATE_DIR "${rosidl_typesupport_protobuf_c_TEMPLATE_DIR}"
-  TARGET_DEPENDENCIES ${target_dependencies}
-)
-
-add_custom_command(
-  OUTPUT ${_generated_files}
-  COMMAND ${PYTHON_EXECUTABLE} ${rosidl_typesupport_protobuf_c_BIN}
-  --generator-arguments-file "${generator_arguments_file}"
-  DEPENDS ${target_dependencies}
-  COMMENT "Generating C type support for Protobuf"
-  VERBATIM
-)
-
 set(_target_suffix "__rosidl_typesupport_protobuf_c")
 
 link_directories(${Protobuf_LIBRARY_DIRS})

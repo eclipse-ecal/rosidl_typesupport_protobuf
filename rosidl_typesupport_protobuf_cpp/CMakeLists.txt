@@ -101,11 +101,6 @@ endif()
 ament_package(CONFIG_EXTRAS "cmake/rosidl_typesupport_protobuf_cpp-extras.cmake.in")
 
 install(
-  PROGRAMS bin/rosidl_typesupport_protobuf_cpp
-  DESTINATION lib/rosidl_typesupport_protobuf_cpp
-)
-
-install(
   DIRECTORY cmake resource
   DESTINATION share/${PROJECT_NAME}
 )
