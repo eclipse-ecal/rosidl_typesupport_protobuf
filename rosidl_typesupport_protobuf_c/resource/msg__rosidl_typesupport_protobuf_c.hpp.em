@@ -30,14 +30,14 @@ header_files = [
     "rosidl_typesupport_cpp/message_type_support.hpp",
     ros_message_header_c(package_name, interface_path),
     ros_message_header(package_name, interface_path),
-    visibility_control_header(package_name),
+    visibility_control_header(package_name, 'rosidl_typesupport_protobuf_c'),
     "rosidl_typesupport_interface/macros.h",
     protobuf_message_header(package_name, interface_path)
 ]
 
-ros_type_ns = ros_type_namespace(package_name, interface_path)
+ros_type_ns = ros_type_namespace(package_name, interface_path, '__')
 ros_type_name = ros_type_name(message)
-ros_type = ros_type(package_name, interface_path, message)
+ros_type = ros_type(package_name, interface_path, message, '__')
 proto_type = protobuf_type(package_name, interface_path, message)
 
 }@

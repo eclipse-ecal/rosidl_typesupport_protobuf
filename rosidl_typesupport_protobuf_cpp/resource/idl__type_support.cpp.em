@@ -39,7 +39,7 @@ forward_declared_types = set()
 
 system_header_files = []
 header_files = [
-  typesupport_header(package_name, interface_path), 
+  typesupport_header(package_name, interface_path, 'rosidl_typesupport_protobuf_cpp'), 
   ros_message_header(package_name, interface_path)
 ]
 }@

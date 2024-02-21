@@ -32,11 +32,11 @@ def isNamespacedArrayType(type_):
 
 def isTypeAlreadyDeclared(type_, fw_declared_types):
     from rosidl_typesupport_protobuf import ros_type_from_namespaced_type
-    return ros_type_from_namespaced_type(type_) in fw_declared_types
+    return ros_type_from_namespaced_type(type_, '__') in fw_declared_types
 
 def registerDeclaredType(type_, fw_declared_types):
     from rosidl_typesupport_protobuf import ros_type_from_namespaced_type
-    fw_declared_types.add(ros_type_from_namespaced_type(type_))
+    fw_declared_types.add(ros_type_from_namespaced_type(type_, '__'))
 
 types_to_declare = list()
 for member in message.structure.members:

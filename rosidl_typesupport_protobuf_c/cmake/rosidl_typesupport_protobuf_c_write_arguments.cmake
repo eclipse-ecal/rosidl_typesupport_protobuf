@@ -41,6 +41,12 @@ set(target_dependencies
   ${_dependency_files}
 )
 
+set(additional_context_file "${CMAKE_CURRENT_BINARY_DIR}/rosidl_typesupport_protobuf_c__additional_context.json")
+rosidl_write_additional_context(
+  "${additional_context_file}"
+  TYPE_SUPPORTS "rosidl_typesupport_protobuf_c"
+)
+
 set(generator_arguments_file "${CMAKE_CURRENT_BINARY_DIR}/rosidl_typesupport_protobuf_c__arguments.json")
 rosidl_write_generator_arguments(
   "${generator_arguments_file}"
@@ -51,6 +57,7 @@ rosidl_write_generator_arguments(
   TEMPLATE_DIR "${rosidl_typesupport_protobuf_c_TEMPLATE_DIR}"
   TARGET_DEPENDENCIES ${target_dependencies}
   GENERATOR_FILES "${rosidl_typesupport_protobuf_c_GENERATOR_FILES}"
+  ADDITIONAL_CONTEXT_FILE "${additional_context_file}"
 )
 
 list(APPEND rosidl_generator_arguments_files ${generator_arguments_file})

@@ -23,7 +23,7 @@ import rosidl_parser.parser as rosidl
 from rosidl_parser.definition import *
 from rosidl_typesupport_protobuf import *
 
-ros_type_ns = ros_type_namespace(package_name, interface_path)
+ros_type_ns = ros_type_namespace(package_name, interface_path, '::')
 ros_type_name = ros_type_name(message)
 ros_type = ros_type(package_name, interface_path, message)
 proto_type = protobuf_type(package_name, interface_path, message)
@@ -40,7 +40,7 @@ header_files = [
     'rosidl_typesupport_protobuf/message_type_support.hpp',
     'rosidl_typesupport_protobuf/message_type_support_decl.hpp',
     'rosidl_typesupport_protobuf/proto_descriptor_helper.hpp',
-    visibility_control_header(package_name),
+    (package_name, 'rosidl_typesupport_protobuf_c'),
     protobuf_message_header(package_name, interface_path)
 ]
 }@

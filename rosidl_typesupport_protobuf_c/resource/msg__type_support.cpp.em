@@ -24,9 +24,9 @@ from rosidl_cmake import convert_camel_case_to_lower_case_underscore
 from rosidl_parser.definition import *
 from rosidl_typesupport_protobuf import *
 
-ros_type_ns = ros_type_namespace(package_name, interface_path)
+ros_type_ns = ros_type_namespace(package_name, interface_path, '__')
 ros_type_name = ros_type_name(message)
-ros_type = ros_type(package_name, interface_path, message)
+ros_type = ros_type(package_name, interface_path, message, '__')
 proto_type = protobuf_type(package_name, interface_path, message)
 
 system_header_files = [
@@ -36,7 +36,7 @@ system_header_files = [
 
 header_files = [
     'rosidl_typesupport_cpp/message_type_support.hpp',
-    visibility_control_header(package_name),
+    visibility_control_header(package_name, 'rosidl_typesupport_protobuf_c'),
     'rosidl_typesupport_protobuf_c/identifier.hpp',
     'rosidl_typesupport_protobuf_c/to_ros_c_string.hpp',
     'rosidl_typesupport_protobuf_c/wstring_conversion.hpp',

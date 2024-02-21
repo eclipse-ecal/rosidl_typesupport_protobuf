@@ -21,14 +21,7 @@ from rosidl_cmake import convert_camel_case_to_lower_case_underscore
 # A postfix for the protobuf package name / the c++ namespace
 PROTO_PACKAGE_POSTFIX = 'pb'
 
-_TYPE_SUPPORT_NAME = ''
 _NAMESPACE_DELIMETER = ''
-
-
-def set_type_support_name(val):
-    global _TYPE_SUPPORT_NAME
-    _TYPE_SUPPORT_NAME = val
-
 
 def set_namespace_delimeter(val):
     global _NAMESPACE_DELIMETER
@@ -85,56 +78,56 @@ def protobuf_message_header(package_name, interface_path):
     return '/'.join(include_parts + [include_prefix + '.pb.h'])
 
 
-def typesupport_header(package_name, interface_path):
+def typesupport_header(package_name, interface_path, typesupport_name):
     include_parts = [package_name] + list(interface_path.parents[0].parts) + \
         [convert_camel_case_to_lower_case_underscore(interface_path.stem)]
     include_base = '/'.join(include_parts)
 
-    return f'{include_base}__{_TYPE_SUPPORT_NAME}.hpp'
+    return f'{include_base}__{typesupport_name}.hpp'
 
 
-def visibility_control_header(package_name):
-    return f'{package_name}/{_TYPE_SUPPORT_NAME}__visibility_control.h'
+def visibility_control_header(package_name, typesupport_name):
+    return f'{package_name}/{typesupport_name}__visibility_control.h'
 
 
 def adapter_visibility_control_header(package_name):
     return f'{package_name}/rosidl_adapter_proto__visibility_control.h'
 
 
-def ros_type_namespace(package_name, interface_path):
-    return _NAMESPACE_DELIMETER.join([package_name] + list(interface_path.parents[0].parts))
+def ros_type_namespace(package_name, interface_path, namespace_delimiter):
+    return namespace_delimiter.join([package_name] + list(interface_path.parents[0].parts))
 
 
 def ros_type_name(message):
     return message.structure.namespaced_type.name
 
 
-def ros_type(package_name, interface_path, message):
+def ros_type(package_name, interface_path, message, namespace_delimiter):
     ros_type_ns = ros_type_namespace(package_name, interface_path)
     ros_type_nm = ros_type_name(message)
-    return '::' + _NAMESPACE_DELIMETER.join([ros_type_ns, ros_type_nm])
+    return '::' + namespace_delimiter.join([ros_type_ns, ros_type_nm])
 
 
-def ros_type_from_namespaced_type(namespaced_type):
-    return '::' + _NAMESPACE_DELIMETER.join(namespaced_type.namespaces + [namespaced_type.name])
+def ros_type_from_namespaced_type(namespaced_type, namespace_delimiter):
+    return '::' + namespace_delimiter.join(namespaced_type.namespaces + [namespaced_type.name])
 
 
 def ros_type_from_namespaced_type_c(namespaced_type):
-    return '::' + _NAMESPACE_DELIMETER.join(namespaced_type.namespaces + [namespaced_type.name])
+    return '::' + '__'.join(namespaced_type.namespaces + [namespaced_type.name])
 
 
-def ros_service_namespace(package_name, interface_path):
-    return _NAMESPACE_DELIMETER.join([package_name] + list(interface_path.parents[0].parts))
+def ros_service_namespace(package_name, interface_path, namespace_delimiter):
+    return namespace_delimiter.join([package_name] + list(interface_path.parents[0].parts))
 
 
 def ros_service_name(service):
     return service.namespaced_type.name
 
 
-def ros_service_type(package_name, interface_path, service):
+def ros_service_type(package_name, interface_path, service, namespace_delimiter):
     ros_type_ns = ros_service_namespace(package_name, interface_path)
     ros_type_nm = ros_service_name(service)
-    return '::' + _NAMESPACE_DELIMETER.join([ros_type_ns, ros_type_nm])
+    return '::' + namespace_delimiter.join([ros_type_ns, ros_type_nm])
 
 
 def protobuf_type(package_name, interface_path, message):

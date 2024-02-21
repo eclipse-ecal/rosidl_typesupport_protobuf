@@ -27,6 +27,7 @@
 @# Context:
 @#  - package_name (string)
 @#  - interface_path (Path relative to the directory named after the package)
+@#  - typesupport
 @#  - content (IdlContent, list of elements, e.g. Messages or Services)
 @#######################################################################
 @
@@ -39,7 +40,7 @@ forward_declared_types = set()
 
 system_header_files = []
 header_files = [
-  typesupport_header(package_name, interface_path),
+  typesupport_header(package_name, interface_path, 'rosidl_typesupport_protobuf_c'),
   ros_message_header_c(package_name, interface_path),
   ros_message_functions_header_c(package_name, interface_path)
 ]

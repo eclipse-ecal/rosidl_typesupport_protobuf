@@ -30,8 +30,8 @@ header_files = [
 ]
 
 service_name = ros_service_name(service)
-service_namespace = ros_service_namespace(package_name, interface_path)
-service_type = ros_service_type(package_name, interface_path, service)
+service_namespace = ros_service_namespace(package_name, interface_path, '::')
+service_type = ros_service_type(package_name, interface_path, service, '::')
 
 }@
 @{

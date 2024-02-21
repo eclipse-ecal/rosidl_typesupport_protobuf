@@ -34,7 +34,7 @@ header_files = [
     ros_message_header(package_name, interface_path),
     adapter_visibility_control_header(package_name),
     typesupport_message_header(package_name, interface_path),
-    visibility_control_header(package_name),
+    visibility_control_header(package_name, 'rosidl_typesupport_protobuf_cpp'),
     'rosidl_typesupport_protobuf/rosidl_generator_c_pkg_adapter.hpp',
     'rosidl_typesupport_interface/macros.h',
     protobuf_message_header(package_name, interface_path)
@@ -55,9 +55,9 @@ TEMPLATE(
 @[for message in content.get_elements_of_type(Message)]@
 
 @{
-ros_type_ns = ros_type_namespace(package_name, interface_path)
+ros_type_ns = ros_type_namespace(package_name, interface_path, '::')
 ros_type_name = ros_type_name(message)
-ros_type = ros_type(package_name, interface_path, message)
+ros_type = ros_type(package_name, interface_path, message, '::')
 proto_type = protobuf_type(package_name, interface_path, message)
 }@
 
