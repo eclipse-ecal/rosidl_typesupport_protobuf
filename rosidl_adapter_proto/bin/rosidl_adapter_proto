@@ -23,7 +23,7 @@ import sys
 import pathlib
 import os
 
-from rosidl_cmake import read_generator_arguments
+from rosidl_cmake import read_generator_arguments, convert_camel_case_to_lower_case_underscore
 from rosidl_adapter_proto import generate_proto
 from rosidl_adapter_proto import compile_proto
 
@@ -65,10 +65,11 @@ def main(argv=sys.argv[1:]):
         assert len(idl_parts) == 2
         idl_rel_path = pathlib.Path(idl_parts[1])
         idl_stem = idl_rel_path.stem
+        proto_stem = convert_camel_case_to_lower_case_underscore(idl_stem)
         generated_file = os.path.join(
                     generator_args['output_dir'],
                     str(idl_rel_path.parent),
-                    idl_stem + ".proto"
+                    proto_stem + ".proto"
         )
         proto_files.append(str(pathlib.Path(generated_file).resolve()))
 
