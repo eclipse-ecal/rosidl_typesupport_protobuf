@@ -2,13 +2,8 @@ cmake_minimum_required(VERSION 3.5)
 
 project(rosidl_typeadapter_protobuf_test)
 
-# Default to C++17
-if(NOT CMAKE_CXX_STANDARD)
-  set(CMAKE_CXX_STANDARD 17)
-  set(CMAKE_CXX_STANDARD_REQUIRED ON)
-endif()
 if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
-  add_compile_options(-Wall -Wextra -Wpedantic)
+  add_compile_options(-Wall -Wextra -Wpedantic -Wno-missing-field-initializers)
 endif()
 if(CMAKE_BUILD_TYPE STREQUAL "Debug" AND MSVC)
   # /bigobj is needed to avoid error C1128:
@@ -109,6 +104,7 @@ if(BUILD_TESTING)
 
   function(custom_executable  target)
     add_executable(${target} ${ARGN})
+    target_compile_features(${target} PRIVATE cxx_std_14)
     ament_target_dependencies(${target}
       "rclcpp"
       "rclcpp_action"
@@ -124,9 +120,12 @@ if(BUILD_TESTING)
     "rclcpp"
     "test_msgs")
 
+  target_compile_features(subscribe_types PRIVATE cxx_std_14)
+
   # publisher combined with a subscriber
   custom_executable(test_proto_typeadapt_cpp
     "test/test_proto_typeadapt.cpp")
+  target_compile_features(test_proto_typeadapt_cpp PRIVATE cxx_std_14)
   target_link_libraries(test_proto_typeadapt_cpp subscribe_types rcpputils::rcpputils)
 
 

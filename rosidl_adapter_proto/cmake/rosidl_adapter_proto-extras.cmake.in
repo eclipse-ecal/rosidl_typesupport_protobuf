@@ -2,7 +2,10 @@
 # rosidl_adapter_proto/
 #   rosidl_adapter_proto-extras.cmake.in
 
-find_package(Protobuf REQUIRED)
+find_package(Protobuf CONFIG QUIET)
+if(NOT Protobuf_FOUND)
+  find_package(Protobuf REQUIRED)
+endif()
 
 if(NOT Protobuf_FOUND)
   message(STATUS "Could not find Protobuf - skip rosidl_adapter_proto")

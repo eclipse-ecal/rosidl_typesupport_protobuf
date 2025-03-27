@@ -15,7 +15,7 @@
 # limitations under the License.
 #
 # ================================= Apache 2.0 =================================
-cmake_minimum_required(VERSION 3.12)
+cmake_minimum_required(VERSION 3.12 FATAL_ERROR)
 
 project(rosidl_adapter_proto)
 

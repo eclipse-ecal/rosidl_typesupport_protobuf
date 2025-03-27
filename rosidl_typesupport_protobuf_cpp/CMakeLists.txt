@@ -27,12 +27,8 @@ else()
     CACHE BOOL "If Protobuf Static should be disabled.")
 endif()
 
-if(NOT CMAKE_CXX_STANDARD)
-  set(CMAKE_CXX_STANDARD 14)
-endif()
-
 if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
-  add_compile_options(-Wall -Wextra -Wpedantic)
+  add_compile_options(-Wall -Wextra -Wpedantic -Wno-missing-field-initializers)
 endif()
 
 if(CMAKE_CXX_COMPILER_ID MATCHES "MSVC")
@@ -66,6 +62,8 @@ ament_python_install_package(${PROJECT_NAME})
 add_library(${PROJECT_NAME} SHARED
   src/identifier.cpp
   src/wstring_conversion.cpp)
+
+target_compile_features(${PROJECT_NAME} PRIVATE cxx_std_14)
 
 if(WIN32)
   target_compile_definitions(${PROJECT_NAME}
