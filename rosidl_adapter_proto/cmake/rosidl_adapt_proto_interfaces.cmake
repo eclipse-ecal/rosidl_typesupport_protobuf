@@ -53,25 +53,28 @@ rosidl_write_generator_arguments(
   TARGET_DEPENDENCIES ${_target_dependencies}
   ADDITIONAL_FILES "${_proto_include_dirs}")
 
-execute_process(
-  COMMAND "${PYTHON_EXECUTABLE}" "${rosidl_adapter_proto_BIN}"
-  --generator-arguments-file "${generator_arguments_file}"
-  --protoc-path "${Protobuf_PROTOC_EXECUTABLE}"
-  ERROR_VARIABLE error
-  RESULT_VARIABLE result
-)
-
-if(NOT result EQUAL 0)
-  message(FATAL_ERROR "Proto file generation failed, error code: ${error}")
-endif()
-
 set(rosidl_adapter_proto_INCLUDE_DIR "${CMAKE_CURRENT_BINARY_DIR}/rosidl_adapter_proto")
 foreach(_abs_idl_file ${rosidl_generate_interfaces_ABS_IDL_FILES})
   get_filename_component(_parent_folder "${_abs_idl_file}" DIRECTORY)
   get_filename_component(_parent_folder "${_parent_folder}" NAME)
   get_filename_component(_idl_name "${_abs_idl_file}" NAME_WE)
   list(APPEND rosidl_adapter_proto_GENERATED_CPP "${rosidl_adapter_proto_OUTPUT_DIR}/${_parent_folder}/${_idl_name}.pb.cc")
+  list(APPEND rosidl_adapter_proto_GENERATED_H "${rosidl_adapter_proto_OUTPUT_DIR}/${_parent_folder}/${_idl_name}.pb.h")
+  list(APPEND rosidl_adapter_proto_GENERATED_PROTO "${rosidl_adapter_proto_OUTPUT_DIR}/${_parent_folder}/${_idl_name}.proto")
 endforeach()
+
+add_custom_command(
+  OUTPUT ${rosidl_adapter_proto_GENERATED_CPP}
+  ${rosidl_adapter_proto_GENERATED_H}
+  ${rosidl_adapter_proto_GENERATED_PROTO}
+  COMMAND "${PYTHON_EXECUTABLE}"
+  ARGS "${rosidl_adapter_proto_BIN}"
+  --generator-arguments-file "${generator_arguments_file}"
+  --protoc-path "${Protobuf_PROTOC_EXECUTABLE}"
+  DEPENDS ${_target_dependencies} "${PYTHON_EXECUTABLE}"
+  COMMENT "Generating type support for Protobuf"
+  VERBATIM
+)
 
 # generate header to switch between export and import for a specific package
 set(rosidl_adapter_proto_VISIBILITY_CONTROL_HEADER
