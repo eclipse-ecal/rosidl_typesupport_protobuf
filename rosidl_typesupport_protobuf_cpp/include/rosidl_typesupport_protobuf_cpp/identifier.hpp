@@ -17,6 +17,8 @@
  * ================================ Apache 2.0 =================================
  */
 
+// Test change to trigger CI 
+
 #pragma once
 
 #include <rosidl_typesupport_protobuf/visibility_control.h>
