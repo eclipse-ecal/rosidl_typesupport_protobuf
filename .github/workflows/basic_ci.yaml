@@ -36,6 +36,8 @@ jobs:
 
     container:
       image: ${{ matrix.docker_image }}
+    env:
+      VERBOSE: '1'
     steps:
       - uses: ros-tooling/setup-ros@v0.7
       - name: checkout
