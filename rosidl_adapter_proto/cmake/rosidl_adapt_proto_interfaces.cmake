@@ -16,6 +16,7 @@
 #
 # ================================= Apache 2.0 =================================
 
+cmake_policy(SET CMP0148 OLD)
 find_package(Protobuf CONFIG QUIET)
 if(NOT Protobuf_FOUND)
   find_package(Protobuf REQUIRED)
