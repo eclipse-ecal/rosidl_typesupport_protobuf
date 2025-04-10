@@ -16,7 +16,10 @@
 #
 # ================================= Apache 2.0 =================================
 
-cmake_policy(SET CMP0148 OLD)
+if(POLICY CMP0148)
+  cmake_policy(SET CMP0148 OLD)
+endif()
+
 find_package(PythonInterp REQUIRED)
 if(NOT PYTHON_EXECUTABLE)
   message(FATAL_ERROR "Variable 'PYTHON_EXECUTABLE' must not be empty")
