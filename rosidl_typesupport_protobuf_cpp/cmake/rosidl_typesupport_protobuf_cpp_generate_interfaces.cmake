@@ -16,7 +16,10 @@
 #
 # ================================= Apache 2.0 =================================
 
-find_package(Protobuf REQUIRED)
+find_package(Protobuf CONFIG QUIET)
+if(NOT Protobuf_FOUND)
+  find_package(Protobuf REQUIRED)
+endif()
 
 find_package(rosidl_adapter_proto REQUIRED)
 find_package(rosidl_typesupport_protobuf REQUIRED)
@@ -118,8 +121,8 @@ if(rosidl_generate_interfaces_LIBRARY_NAME)
 endif()
 
 # set C++ standard
-set_target_properties(${rosidl_generate_interfaces_TARGET}${_target_suffix}
-  PROPERTIES CXX_STANDARD 14
+target_compile_features(${rosidl_generate_interfaces_TARGET}${_target_suffix}
+  PRIVATE cxx_std_14
 )
 
 # Set flag for visibility macro
@@ -131,7 +134,7 @@ endif()
 
 # Set compiler flags
 if(NOT WIN32)
-  set(_target_compile_flags "-Wall -Wextra -Wpedantic")
+  set(_target_compile_flags "-Wall -Wextra -Wpedantic -Wno-missing-field-initializers")
 else()
   set(_target_compile_flags "/W4")
 endif()
@@ -166,7 +169,15 @@ foreach(_pkg_name ${rosidl_generate_interfaces_DEPENDENCY_PACKAGE_NAMES})
     ${${_pkg_name}_LIBRARIES${_target_suffix}})
 endforeach()
 
-target_link_libraries(${rosidl_generate_interfaces_TARGET}${_target_suffix} ${Protobuf_LIBRARY})
+if(protobuf_MODULE_COMPATIBLE) #Legacy mode
+  target_link_libraries(${rosidl_generate_interfaces_TARGET}${_target_suffix}
+    ${Protobuf_LIBRARY}
+  )
+else()
+  target_link_libraries(${rosidl_generate_interfaces_TARGET}${_target_suffix}
+    protobuf::libprotobuf
+  )
+endif()
 
 # Make top level generation target depend on this library
 add_dependencies(

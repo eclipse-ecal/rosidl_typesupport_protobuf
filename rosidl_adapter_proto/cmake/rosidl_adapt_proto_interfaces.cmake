@@ -16,8 +16,40 @@
 #
 # ================================= Apache 2.0 =================================
 
-find_package(PythonInterp REQUIRED)
-if(NOT PYTHON_EXECUTABLE)
+if(POLICY CMP0148)
+   cmake_policy(SET CMP0148 OLD)
+ endif()
+ 
+find_package(Protobuf CONFIG QUIET)
+if(NOT Protobuf_FOUND)
+  find_package(Protobuf REQUIRED)
+endif()
+
+# Set the protoc Executable
+# Protoc path retrieval from target taken from the CMake find module code of Protobuf
+if(NOT Protobuf_PROTOC_EXECUTABLE AND TARGET protobuf::protoc)
+  get_target_property(Protobuf_PROTOC_EXECUTABLE protobuf::protoc
+    IMPORTED_LOCATION_RELEASE)
+  if(NOT EXISTS "${Protobuf_PROTOC_EXECUTABLE}")
+    get_target_property(Protobuf_PROTOC_EXECUTABLE protobuf::protoc
+      IMPORTED_LOCATION_RELWITHDEBINFO)
+  endif()
+  if(NOT EXISTS "${Protobuf_PROTOC_EXECUTABLE}")
+    get_target_property(Protobuf_PROTOC_EXECUTABLE protobuf::protoc
+      IMPORTED_LOCATION_MINSIZEREL)
+  endif()
+  if(NOT EXISTS "${Protobuf_PROTOC_EXECUTABLE}")
+    get_target_property(Protobuf_PROTOC_EXECUTABLE protobuf::protoc
+      IMPORTED_LOCATION_DEBUG)
+  endif()
+  if(NOT EXISTS "${Protobuf_PROTOC_EXECUTABLE}")
+    get_target_property(Protobuf_PROTOC_EXECUTABLE protobuf::protoc
+      IMPORTED_LOCATION_NOCONFIG)
+  endif()
+endif()
+
+find_package(Python COMPONENTS Interpreter)
+if(NOT Python_FOUND)
   message(FATAL_ERROR "Variable 'PYTHON_EXECUTABLE' must not be empty")
 endif()
 
@@ -53,8 +85,10 @@ rosidl_write_generator_arguments(
   TARGET_DEPENDENCIES ${_target_dependencies}
   ADDITIONAL_FILES "${_proto_include_dirs}")
 
+include(CMakePrintHelpers)
+
 execute_process(
-  COMMAND "${PYTHON_EXECUTABLE}" "${rosidl_adapter_proto_BIN}"
+  COMMAND "${Python_EXECUTABLE}" "${rosidl_adapter_proto_BIN}"
   --generator-arguments-file "${generator_arguments_file}"
   --protoc-path "${Protobuf_PROTOC_EXECUTABLE}"
   ERROR_VARIABLE error
