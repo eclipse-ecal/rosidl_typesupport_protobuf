@@ -88,7 +88,7 @@ def test_message_proto_generated(message_idl_file):
 
     proto_file_name = IdlLocator(
         pathlib.Path(__file__).parent,
-        pathlib.Path('msg') / 'BoolTest.proto')
+        pathlib.Path('msg') / 'bool_test.proto')
 
     assert search_word(proto_file_name.get_absolute_path(), member.name) is True
     assert search_word(proto_file_name.get_absolute_path(), str(field_number)) is True
@@ -150,7 +150,7 @@ def test_to_proto_import(message_idl_file):
     messages = message_idl_file.content.get_elements_of_type(Message)
     namespace_type = messages[0].structure.namespaced_type
     proto_import = to_proto_import(namespace_type)
-    assert proto_import == 'rosidl_adapter_proto/Bool.proto'
+    assert proto_import == 'rosidl_adapter_proto/bool.proto'
 
 
 def test_to_proto_import_invalid_argument():
@@ -164,7 +164,7 @@ def test_collect_proto_import(message_idl_file):
     for message in messages:
         proto_import_set.update(collect_proto_imports(message))
     for proto_file in proto_import_set:
-        assert proto_file == 'rosidl_adapter_proto/Bool.proto'
+        assert proto_file == 'rosidl_adapter_proto/bool.proto'
 
 
 def test_collect_proto_import_invalid_argument():

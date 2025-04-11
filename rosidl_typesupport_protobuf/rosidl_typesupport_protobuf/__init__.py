@@ -80,7 +80,7 @@ def ros_message_functions_header_c_from_namespace(namespace, name):
 
 def protobuf_message_header(package_name, interface_path):
     include_parts = [package_name] + list(interface_path.parents[0].parts)
-    include_prefix = interface_path.stem
+    include_prefix = convert_camel_case_to_lower_case_underscore(interface_path.stem)
 
     return '/'.join(include_parts + [include_prefix + '.pb.h'])
 
